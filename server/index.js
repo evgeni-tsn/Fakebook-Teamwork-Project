@@ -7,10 +7,13 @@ import webpackMiddleware from 'webpack-dev-middleware'
 import webpackHotMiddleware from 'webpack-hot-middleware'
 import webpackConfig from '../webpack.config.dev'
 
+import {initializeDB} from './mongoose'
 import users from './routes/users'
+
 
 const port = 3000
 const app = express()
+initializeDB()
 app.use(bodyParser.json())
 app.use('/api/users', users)
 
