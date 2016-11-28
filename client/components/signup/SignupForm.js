@@ -1,6 +1,7 @@
 import React from 'react'
 import TextFieldGroup from '../common/TextFieldGroup'
 import validateInput from '../../../server/shared/validations/signup'
+import toastr from 'toastr'
 
 class SignupForm extends React.Component {
   constructor(props) {
@@ -33,13 +34,28 @@ class SignupForm extends React.Component {
   }
 
   onSubmit(event) {
+    toastr.options = {
+      "closeButton": "true",
+      "positionClass": "toast-top-full-width"
+    }
     event.preventDefault()
     if (this.isValid()) {
       this.setState({errors: {}, isLoading: true})
       this.props.userSignupRequest(this.state).then(
-        () => {},
-        (err) => this.setState({errors: err.response.data, isLoading: false})
+        () => {
+          this.props.addFlashMessage({
+            type: 'success',
+            text: 'Sign up was successful!'
+          })
+          toastr.success("Sign up was successful!")
+          this.context.router.push('/')
+        },
+        (err) => {
+          this.setState({errors: err.response.data, isLoading: false})
+        }
       )
+    } else {
+      toastr.error("You have validation errors!")
     }
   }
 
@@ -94,7 +110,12 @@ class SignupForm extends React.Component {
 }
 
 SignupForm.propTypes = {
-  userSignupRequest: React.PropTypes.func.isRequired
+  userSignupRequest: React.PropTypes.func.isRequired,
+  addFlashMessage: React.PropTypes.func.isRequired
+}
+
+SignupForm.contextTypes = {
+  router: React.PropTypes.object.isRequired
 }
 
 export default SignupForm
