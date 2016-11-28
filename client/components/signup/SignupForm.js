@@ -2,6 +2,7 @@ import React from 'react'
 import TextFieldGroup from '../common/TextFieldGroup'
 import validateInput from '../../../server/shared/validations/signup'
 import toastr from 'toastr'
+import isEmpty from 'lodash/isEmpty'
 
 class SignupForm extends React.Component {
   constructor(props) {
@@ -12,15 +13,36 @@ class SignupForm extends React.Component {
       password: '',
       passwordConfirmation: '',
       errors: {},
-      isLoading: false
+      isLoading: false,
+      invalid: false
     }
 
     this.onChange = this.onChange.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
+    this.checkUserExist = this.checkUserExist.bind(this)
   }
 
   onChange(event) {
     this.setState({[event.target.name]: event.target.value})
+  }
+
+  checkUserExist(event){
+    const field = event.target.name
+    const val = event.target.value
+    if(val !== ''){
+      this.props.isUserExist(val).then(res => {
+        let errors = this.state.errors
+        let invalid;
+        if (!isEmpty(res.data.user)) {
+          errors[field] = 'There is user with such ' + field
+          invalid = true
+        } else {
+          errors[field] = ''
+          invalid = false
+        }
+        this.setState({errors, invalid})
+      })
+    }
   }
 
   isValid() {
@@ -69,6 +91,7 @@ class SignupForm extends React.Component {
           error={errors.username}
           label="Username"
           onChange={this.onChange}
+          checkUserExist={this.checkUserExist}
           value={this.state.username}
           field="username"
         />
@@ -77,6 +100,7 @@ class SignupForm extends React.Component {
           error={errors.email}
           label="Email"
           onChange={this.onChange}
+          checkUserExist={this.checkUserExist}
           value={this.state.email}
           field="email"
         />
@@ -100,7 +124,7 @@ class SignupForm extends React.Component {
         />
 
         <div className="form-group">
-          <button disabled={this.state.isLoading} className="btn btn-primary btn-lg">
+          <button disabled={this.state.isLoading || this.state.invalid} className="btn btn-primary btn-lg">
             Sign up
           </button>
         </div>
@@ -111,7 +135,8 @@ class SignupForm extends React.Component {
 
 SignupForm.propTypes = {
   userSignupRequest: React.PropTypes.func.isRequired,
-  addFlashMessage: React.PropTypes.func.isRequired
+  addFlashMessage: React.PropTypes.func.isRequired,
+  isUserExist: React.PropTypes.func.isRequired
 }
 
 SignupForm.contextTypes = {
