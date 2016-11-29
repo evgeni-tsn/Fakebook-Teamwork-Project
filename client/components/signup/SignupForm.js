@@ -47,11 +47,9 @@ class SignupForm extends React.Component {
 
   isValid() {
     const {errors, isValid} = validateInput(this.state)
-
     if (!isValid) {
       this.setState({errors})
     }
-
     return isValid
   }
 
