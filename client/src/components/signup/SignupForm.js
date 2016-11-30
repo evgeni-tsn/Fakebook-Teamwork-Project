@@ -88,7 +88,7 @@ class SignupForm extends React.Component {
   onSubmit(event) {
     toastr.options = {
       "closeButton": "true",
-      "positionClass": "toast-top-full-width"
+      "positionClass": "toast-top-right"
     }
     event.preventDefault()
     if (this.isValid()) {

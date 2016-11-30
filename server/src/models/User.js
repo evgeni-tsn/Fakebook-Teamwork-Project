@@ -10,15 +10,4 @@ let userSchema = mongoose.Schema({
   timestamps: true
 })
 
-// userSchema.method({
-//   authenticate: function (password) {
-//     let inputHashedPassword = encryption.generateHashedPassword(this.salt, password)
-//     if (inputHashedPassword === this.hashedPass) {
-//       return true
-//     } else {
-//       return false
-//     }
-//   }
-// })
-
 export default mongoose.model('User', userSchema)

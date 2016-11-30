@@ -1,0 +1,17 @@
+.navbar {
+    background-color: #1397ff;
+}
+
+.navbar a {
+    color: #fff !important;
+}
+
+body {
+    background-color: #e4e4e4;
+    padding-top: 70px;
+    font-size: 1.5em !important;
+}
+
+.navbar-default {
+    border-color: #e4e4e4;
+}

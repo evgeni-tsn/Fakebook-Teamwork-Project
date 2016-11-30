@@ -20,21 +20,19 @@ class NavigationBar extends React.Component {
 
     const guestLinks = (
       <ul className="nav navbar-nav navbar-right">
-        <li><Link to="/login">Login</Link></li>
-        <li><Link to="/signup">Sign up</Link></li>
+        <li><Link to="/login"><span className="glyphicon glyphicon-log-in"> Login</span></Link></li>
+        <li><Link to="/signup"><span className="glyphicon glyphicon-user"> Signup</span></Link></li>
       </ul>
     )
 
     return (
-      <div className="navbar navbar-default">
+      <div className="navbar navbar-default navbar-fixed-top">
         <div className="container-fluid">
           <div className="navbar-header">
             <Link to="/" className="navbar-brand" href="#">Fakebook</Link>
           </div>
 
-          <div className="collapse navbar-collapse">
-            {isAuthenticated ? userLinks : guestLinks}
-          </div>
+          {isAuthenticated ? userLinks : guestLinks}
         </div>
       </div>
     )

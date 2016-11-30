@@ -1,7 +1,7 @@
 import React from 'react'
 import TextFieldGroup from '../common/TextFieldGroup'
 import { connect } from 'react-redux'
-import { createStatus} from '../../actions/statusActions'
+import { createStatus } from '../../actions/statusActions'
 
 class StatusForm extends React.Component {
   constructor(props) {
@@ -30,18 +30,19 @@ class StatusForm extends React.Component {
 
     return (
       <form onSubmit={this.onSubmit}>
-        <h1>Create new Status</h1>
+        <h3>Create new Status</h3>
+        <div className="form-group">
+          <textarea
+            className="form-control"
+            rows="5"
+            name="content"
+            placeholder="What's on your mind?"
+            value={content}
+            onChange={this.onChange}>
+        </textarea>
+        </div>
 
-        <TextFieldGroup
-          field="content"
-          label="Status"
-          name="content"
-          value={content}
-          onChange={this.onChange}
-          error={errors.content}
-        />
-
-        <button type="submit" disabled={isLoading} className="btn btn-primary">Create</button>
+        <button type="submit" disabled={isLoading} className="btn btn-primary btn-block">Create</button>
       </form>
     )
   }
