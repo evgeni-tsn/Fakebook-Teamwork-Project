@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { login } from '../../actions/login'
+import { login } from '../../actions/authActions'
 
 import validateInput from '../../../server/shared/validations/login'
 

@@ -6,7 +6,9 @@ import { Provider } from 'react-redux'
 import thunk from 'redux-thunk'
 import { createStore, applyMiddleware, compose } from 'redux'
 import rootReducer from './rootReducer'
-// import { AppContainer } from 'react-hot-loader'
+import setAuthToken from './utilities/setAuthToken'
+import jwt from 'jsonwebtoken'
+import { setCurrentUser } from './actions/authActions'
 
 const rootElement = document.getElementById('app')
 const store = createStore(
@@ -17,18 +19,13 @@ const store = createStore(
   )
 )
 
+if (localStorage.jwtToken) {
+  setAuthToken(localStorage.jwtToken)
+  store.dispatch(setCurrentUser(jwt.decode(localStorage.jwtToken)))
+}
+
 ReactDOM.render(
   <Provider store={store}>
     <Router history={browserHistory} routes={routes}/>
   </Provider>, rootElement)
 
-// if (module.hot) {
-//   module.hot.accept(App, () => {
-//     ReactDOM.render(
-//       <AppContainer>
-//         <App />
-//       </AppContainer>,
-//       rootElement
-//     );
-//   });
-// }
