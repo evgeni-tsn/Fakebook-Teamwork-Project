@@ -1,10 +1,26 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { login } from '../../actions/authActions'
-
-import validateInput from '../../../server/shared/validations/login'
-
 import TextFieldGroup from '../common/TextFieldGroup'
+import Validator from 'validator'
+import isEmpty from 'lodash/isEmpty'
+
+function validateInput(data) {
+  let errors = {}
+
+  if(Validator.isEmpty(data.identifier)){
+    errors.identifier = 'This field is required'
+  }
+
+  if(Validator.isEmpty(data.password)){
+    errors.password = 'This field is required'
+  }
+
+  return {
+    errors,
+    isValid: isEmpty(errors)
+  }
+}
 
 class LoginForm extends React.Component {
   constructor(props) {

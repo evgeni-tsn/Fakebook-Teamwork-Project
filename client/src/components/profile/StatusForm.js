@@ -41,7 +41,7 @@ class StatusForm extends React.Component {
           error={errors.content}
         />
 
-        <button type="submit" className="btn btn-primary">Create</button>
+        <button type="submit" disabled={isLoading} className="btn btn-primary">Create</button>
       </form>
     )
   }
