@@ -2,7 +2,7 @@ import express from 'express'
 import User from '../models/User'
 import bcryptjs from 'bcryptjs'
 import jwt from 'jsonwebtoken'
-import config from './config'
+import config from '../config'
 
 let router = express.Router()
 

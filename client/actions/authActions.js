@@ -1,6 +1,6 @@
 import axios from 'axios'
 import setAuthToken from '../utilities/setAuthToken'
-import jwt from 'jsonwebtoken'
+import jwtDecode from 'jwt-decode'
 import {SET_CURRENT_USER} from './types'
 
 export function logout() {
@@ -25,7 +25,7 @@ export function login(data) {
         const token = res.data.token
         localStorage.setItem('jwtToken', token)
         setAuthToken(token)
-        dispatch(setCurrentUser(jwt.decode(token)))
+        dispatch(setCurrentUser(jwtDecode(token)))
       })
   }
 }
