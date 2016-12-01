@@ -6,11 +6,17 @@ let router = express.Router()
 
 router.post('/', authenticate, (req, res) => {
   const {content} = req.body
-  let status = { content }
+  let status = {content}
 
   Status.create(status)
-      .then(status => res.status(201).json({success: true, user: req.currentUser}))
-      .catch(err => res.status(500).json({error: err}))
+        .then(status => res.status(201).json({success: true, user: req.currentUser}))
+        .catch(err => res.status(500).json({error: err}))
+})
+
+router.get('/', (req, res) => {
+  Status.find({})
+        .sort([['updatedAt', 'descending']])
+        .then(s => res.status(200).json(s))
 })
 
 export default router

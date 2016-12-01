@@ -14,6 +14,8 @@ class NavigationBar extends React.Component {
     const {isAuthenticated} = this.props.auth
     const userLinks = (
       <ul className="nav navbar-nav navbar-right">
+        <li><Link to="/profile/add">Add New Status</Link></li>
+        <li><Link to="/profile">Profile</Link></li>
         <li><a href="#" onClick={this.logout.bind(this)}>Logout</a></li>
       </ul>
     )
@@ -26,7 +28,7 @@ class NavigationBar extends React.Component {
     )
 
     return (
-      <div className="navbar navbar-default navbar-fixed-top">
+      <div className="navbar navbar-default">
         <div className="container-fluid">
           <div className="navbar-header">
             <Link to="/" className="navbar-brand" href="#">Fakebook</Link>

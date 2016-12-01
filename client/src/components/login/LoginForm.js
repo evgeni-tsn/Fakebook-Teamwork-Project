@@ -4,6 +4,7 @@ import { login } from '../../actions/authActions'
 import TextFieldGroup from '../common/TextFieldGroup'
 import Validator from 'validator'
 import isEmpty from 'lodash/isEmpty'
+import toastr from 'toastr'
 
 function validateInput(data) {
   let errors = {}
@@ -52,8 +53,12 @@ class LoginForm extends React.Component {
     if (this.isValid()) {
       this.setState({errors: {}, isLoading: true})
       this.props.login(this.state).then(
-        (res) => this.context.router.push('/profile'),
-        (err) => this.setState({errors: err.response.data, isLoading: false})
+        (res) => {
+          toastr.success('Logged in successfully')
+          this.context.router.push('/profile')},
+        (err) => {
+          toastr.error('Something went wrong with login.')
+          this.setState({errors: err.response.data, isLoading: false})}
       )
     }
   }
@@ -67,7 +72,6 @@ class LoginForm extends React.Component {
     return (
       <form onSubmit={this.onSubmit}>
         <h1>Login</h1>
-        {/*{console.dir(errors.errors.form)}*/}
         {errors.form && <div className="alert alert-danger">{errors.form}</div>}
 
         <TextFieldGroup

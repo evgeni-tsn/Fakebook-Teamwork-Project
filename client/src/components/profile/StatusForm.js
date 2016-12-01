@@ -1,5 +1,6 @@
 import React from 'react'
 import TextFieldGroup from '../common/TextFieldGroup'
+import toastr from 'toastr'
 import { connect } from 'react-redux'
 import { createStatus } from '../../actions/statusActions'
 
@@ -23,6 +24,8 @@ class StatusForm extends React.Component {
   onSubmit(event) {
     event.preventDefault()
     this.props.createStatus(this.state)
+    toastr.success("Status was added successfully!")
+    this.context.router.push('/profile')
   }
 
   render() {
@@ -50,6 +53,10 @@ class StatusForm extends React.Component {
 
 StatusForm.propTypes = {
   createStatus: React.PropTypes.func.isRequired
+}
+
+StatusForm.contextTypes = {
+  router: React.PropTypes.object.isRequired
 }
 
 export default connect(null, {createStatus})(StatusForm)
