@@ -28,7 +28,6 @@ function validateInput(data, otherValidations) {
 }
 
 router.get('/:identifier', (req, res) => {
-
   User.find({$or: [{username: req.params.identifier}, {email: req.params.identifier}]}).select('username email')
       .then(user => {
         res.json({user})

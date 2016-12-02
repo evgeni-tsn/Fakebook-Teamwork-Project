@@ -5,16 +5,21 @@ import { connect } from 'react-redux'
 import { fetchStatuses } from '../../actions/statusActions'
 
 class ProfilePage extends React.Component {
+
+  constructor(props){
+    super(props)
+    this.props.fetchStatuses(this.props.auth.user.username)
+  }
   componentDidMount() {
-    this.forceUpdate()
+    this.props.fetchStatuses(this.props.auth.user.username)
   }
 
   render() {
-    this.props.fetchStatuses()
+    let username = this.props.auth.user.username
     return (
       <div>
-        <h1>Hello 'Insert Username here' this is your profile</h1>
-        <Link to="/profile/add"><button className="btn btn-primary btn-block">Add New Status</button></Link>
+        <h1>Hello {username}</h1>
+        <Link to="/add"><button className="btn btn-primary btn-block">Add New Status</button></Link>
         <h2 className="header">Statuses</h2>
         <StatusList statuses={this.props.statuses}/>
       </div>
@@ -29,7 +34,8 @@ ProfilePage.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    statuses: state.statuses
+    statuses: state.statuses,
+    auth: state.auth
   }
 }
 

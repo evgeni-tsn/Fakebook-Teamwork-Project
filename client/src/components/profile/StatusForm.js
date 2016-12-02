@@ -3,6 +3,7 @@ import TextFieldGroup from '../common/TextFieldGroup'
 import toastr from 'toastr'
 import { connect } from 'react-redux'
 import { createStatus } from '../../actions/statusActions'
+import { fetchStatuses } from '../../actions/statusActions'
 
 class StatusForm extends React.Component {
   constructor(props) {
@@ -10,7 +11,8 @@ class StatusForm extends React.Component {
     this.state = {
       content: '',
       errors: {},
-      isLoading: false
+      isLoading: false,
+      user: this.props.auth.user.username
     }
 
     this.onChange = this.onChange.bind(this)
@@ -24,13 +26,13 @@ class StatusForm extends React.Component {
   onSubmit(event) {
     event.preventDefault()
     this.props.createStatus(this.state)
-    toastr.success("Status was added successfully!")
+    this.props.fetchStatuses(this.state.user)
     this.context.router.push('/profile')
+    toastr.success("Status was added successfully!")
   }
 
   render() {
     const {content, errors, isLoading} = this.state
-
     return (
       <form onSubmit={this.onSubmit}>
         <h3>Create new Status</h3>
@@ -52,12 +54,19 @@ class StatusForm extends React.Component {
 }
 
 StatusForm.propTypes = {
-  createStatus: React.PropTypes.func.isRequired
+  createStatus: React.PropTypes.func.isRequired,
+  fetchStatuses: React.PropTypes.func.isRequired
 }
 
 StatusForm.contextTypes = {
   router: React.PropTypes.object.isRequired
 }
 
-export default connect(null, {createStatus})(StatusForm)
+function mapStateToProps(state) {
+  return {
+    auth: state.auth
+  }
+}
+
+export default connect(mapStateToProps, {createStatus, fetchStatuses})(StatusForm)
 

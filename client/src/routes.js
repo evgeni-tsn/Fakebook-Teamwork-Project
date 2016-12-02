@@ -16,6 +16,6 @@ export default (
     <Route path="signup" component={SignupPage}/>
     <Route path="login" component={LoginPage}/>
     <Route path="profile" component={requireAuth(ProfilePage)}/>
-    <Route path="profile/add" component={requireAuth(StatusForm)}/>
+    <Route path="add" component={requireAuth(StatusForm)}/>
   </Route>
 )

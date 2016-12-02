@@ -14,9 +14,16 @@ export function setStatuses(statuses) {
   }
 }
 
-export function fetchStatuses() {
+export function fetchStatuses(user) {
   return dispatch => {
-    return axios.get('/api/statuses')
+    return axios.get(`/api/statuses/${user}`)
+                .then(data => dispatch(setStatuses(data.data)))
+  }
+}
+
+export function fetchAllStatuses() {
+  return dispatch => {
+    return axios.get(`/api/statuses/`)
                 .then(data => dispatch(setStatuses(data.data)))
   }
 }

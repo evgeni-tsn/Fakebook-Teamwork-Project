@@ -3,7 +3,8 @@ import mongoose from 'mongoose'
 let requiredValidationMessage = '{PATH} is required'
 
 let statusSchema = mongoose.Schema({
-  content: {type: String, required: requiredValidationMessage}
+  content: {type: String, required: requiredValidationMessage},
+  user: {type: String, required: requiredValidationMessage}
 }, {
   timestamps: true
 })

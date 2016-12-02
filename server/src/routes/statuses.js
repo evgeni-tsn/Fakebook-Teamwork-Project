@@ -5,8 +5,8 @@ import Status from '../models/Status'
 let router = express.Router()
 
 router.post('/', authenticate, (req, res) => {
-  const {content} = req.body
-  let status = {content}
+  const {content, user} = req.body
+  let status = {content, user}
 
   Status.create(status)
         .then(status => res.status(201).json({success: true, user: req.currentUser}))
@@ -17,6 +17,14 @@ router.get('/', (req, res) => {
   Status.find({})
         .sort([['updatedAt', 'descending']])
         .then(s => res.status(200).json(s))
+})
+
+
+router.get('/:user', (req, res) => {
+  Status.find({user: req.params.user})
+        .sort([['updatedAt', 'descending']])
+        .then(s => res.status(200).json(s))
+
 })
 
 export default router
