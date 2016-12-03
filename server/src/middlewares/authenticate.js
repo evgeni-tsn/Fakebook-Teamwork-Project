@@ -16,12 +16,12 @@ export default (req, res, next) => {
       if (err) {
         res.status(401).json({error: 'Failed to authenticate'})
       } else {
-        User.findOne({username: decoded.username})
-            .select('username email id createdAt')
+        User.findById(decoded.id)
             .then(user => {
-              if (!user) {
+              if (!user || user.password_digest != decoded.password) {
                 res.status(404).json({error: 'No such user'})
               } else {
+                console.log(user)
                 req.currentUser = user
                 next()
               }

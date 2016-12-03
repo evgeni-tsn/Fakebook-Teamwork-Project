@@ -9,7 +9,8 @@ let userSchema = mongoose.Schema({
   statuses: [{type: mongoose.Schema.ObjectId, ref: 'Status'}],
   friends: [{type: mongoose.Schema.ObjectId, ref: 'User'}]
 }, {
-  timestamps: true
+  timestamps: true,
+  collection: 'users'
 })
 
 export default mongoose.model('User', userSchema)

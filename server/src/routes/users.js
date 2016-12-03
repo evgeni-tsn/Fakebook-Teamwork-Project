@@ -28,11 +28,12 @@ function validateInput(data, otherValidations) {
 }
 
 router.get('/:identifier', (req, res) => {
-  User.find({$or: [{username: req.params.identifier}, {email: req.params.identifier}]}).select('username email')
+  User.findOne({$or: [{username: req.params.identifier}, {email: req.params.identifier}]}).select('username email')
+      .populate('statuses')
       .then(user => {
+        user.password_digest = ''
         res.json({user})
       })
-
 })
 
 router.post('/', (req, res) => {
@@ -44,13 +45,14 @@ router.post('/', (req, res) => {
       let user = {
         username: username,
         email: email,
-        password_digest: password_digest
+        password_digest: password_digest,
+        statuses: [],
+        friends: []
       }
 
       User.create(user)
           .then(user => res.json({success: true}))
           .catch(err => res.status(500).json({error: err}))
-
     } else {
       res.status(400).json(errors)
     }
