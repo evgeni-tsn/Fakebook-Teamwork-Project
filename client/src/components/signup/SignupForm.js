@@ -94,6 +94,7 @@ class SignupForm extends React.Component {
     event.preventDefault()
     if (this.isValid()) {
       this.setState({errors: {}, isLoading: true})
+
       this.props.userSignupRequest(this.state).then(
         () => {
           this.props.addFlashMessage({

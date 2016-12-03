@@ -4,10 +4,12 @@ import bcrypt from 'bcryptjs'
 import { User } from '../models/User'
 import isEmpty from 'lodash/isEmpty'
 
+// if you want to implement avatar uploading
+// import { upload } from '../shared/upload-config/multer-config'
+
 let router = express.Router()
 
 function validateInput(data, otherValidations) {
-
   let {errors} = otherValidations(data);
 
   return User.find({$or: [{username: data.username}, {email: data.email}]})
@@ -53,10 +55,12 @@ router.get('/:username', (req, res) => {
     .catch(console.log)
 })
 
+// attach upload.single('fieldname') if you want to get file from multipart form
 router.post('/', (req, res) => {
   validateInput(req.body, commonValidations).then(({errors, isValid}) => {
     if (isValid) {
       const {username, email, password} = req.body;
+
 
       const salt = bcrypt.genSaltSync(10)
       const password_digest = bcrypt.hashSync(password, salt)

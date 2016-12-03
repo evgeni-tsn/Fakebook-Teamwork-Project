@@ -1,3 +1,4 @@
 export default {
-  jwtSecret: 'taina'
+  jwtSecret: 'taina',
+  root: __dirname
 }

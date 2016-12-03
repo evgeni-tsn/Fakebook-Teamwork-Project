@@ -10,6 +10,7 @@ import statuses from './routes/statuses'
 const port = 8080
 const app = express()
 initializeDB()
+app.use(express.static('public'))
 app.use(bodyParser.json())
 app.use('/api/users', users)
 app.use('/api/auth', auth)
