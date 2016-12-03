@@ -23,7 +23,7 @@ class StatusForm extends React.Component {
 
   onSubmit(event) {
     event.preventDefault()
-    this.props.createStatus(this.state).then(() => {
+      this.props.createStatus(this.state).then(() => {
       this.context.router.push(`/${this.props.auth.user.username}`)
     })
     toastr.success("Status was added successfully!")

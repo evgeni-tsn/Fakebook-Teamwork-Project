@@ -15,3 +15,9 @@ body {
 .navbar-default {
     border-color: #e4e4e4;
 }
+
+.status-user-link {
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 20px;
+}
