@@ -28,8 +28,12 @@ function validateInput(data, otherValidations) {
 }
 
 router.get('/:identifier', (req, res) => {
-  User.findOne({$or: [{username: req.params.identifier}, {email: req.params.identifier}]}).select('username email')
-      .populate('statuses')
+  User.findOne({$or: [{username: req.params.identifier}, {email: req.params.identifier}]})
+      .select('username email')
+      .populate({path: 'statuses',
+        populate: [
+          { path: 'comments' }
+        ], options: { sort: { updatedAt: 'desc' }}})
       .then(user => {
         user.password_digest = ''
         res.json({user})

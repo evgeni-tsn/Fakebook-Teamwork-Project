@@ -21,7 +21,6 @@ export default (req, res, next) => {
               if (!user) {
                 res.status(404).json({error: 'No such user'})
               } else {
-                console.log(user)
                 req.currentUser = user
                 next()
               }
