@@ -6,7 +6,7 @@ let router = express.Router()
 
 router.post('/', authenticate, (req, res) => {
   const {content, user} = {content: req.body.content, user: req.currentUser._id}
-  let status = {content, user }
+  let status = { content, user }
 
   Status.create(status)
         .then(status => res.status(201).json({success: true, user: req.currentUser}))
@@ -14,7 +14,7 @@ router.post('/', authenticate, (req, res) => {
 })
 
 router.get('/', (req, res) => {
-  Status.find({})
+  Status.find()
         .sort([['updatedAt', 'descending']])
         .then(s => res.status(200).json(s))
 })

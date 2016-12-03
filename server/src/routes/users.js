@@ -39,8 +39,10 @@ router.get('/:identifier', (req, res) => {
 router.post('/', (req, res) => {
   validateInput(req.body, commonValidations).then(({errors, isValid}) => {
     if (isValid) {
-      const {username, email, password} = req.body
-      const password_digest = bcrypt.hashSync(password, 10)
+      const {username, email, password} = req.body;
+
+      const salt = bcrypt.genSaltSync(10)
+      const password_digest = bcrypt.hashSync(password, salt)
 
       let user = {
         username: username,
