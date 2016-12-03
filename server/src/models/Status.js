@@ -12,4 +12,6 @@ let statusSchema = mongoose.Schema({
   collection: 'statuses'
 })
 
-export default mongoose.model('Status', statusSchema)
+let Status = mongoose.model('Status', statusSchema)
+
+export { Status }

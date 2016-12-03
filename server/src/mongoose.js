@@ -1,5 +1,6 @@
 import mongoose from 'mongoose'
-import User from './models/User'
+import { User } from './models/Models'
+import bcrypt from 'bcryptjs'
 
 export function initializeDB() {
   mongoose.Promise = global.Promise
@@ -12,17 +13,18 @@ export function initializeDB() {
     if (err) {
       console.log(err)
     }
+
     console.log('MongoDB ready!')
   })
 
   db.on('error', err => console.log('Database error: ' + err))
 
-  User.find({}).then(users => {
-    if (users.length === 0) {
+  User.count().then(count => {
+    if (count === 0) {
       User.create({
         username: 'admin',
         email: 'admin@abv.bg',
-        password_digest: 'taina'
+        password_digest: bcrypt.hashSync('admin', 10)
       })
     }
   })

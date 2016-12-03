@@ -62,10 +62,11 @@ class SignupForm extends React.Component {
     const field = event.target.name
     const val = event.target.value
     if(val !== ''){
-      this.props.isUserExist(val).then(res => {
+      this.props.userExists(val).then(res => {
         let errors = this.state.errors
         let invalid;
-        if (!isEmpty(res.data.user)) {
+        if (res.data.exists) {
+          console.log('exists')
           errors[field] = 'There is user with such ' + field
           invalid = true
         } else {
@@ -166,7 +167,7 @@ class SignupForm extends React.Component {
 SignupForm.propTypes = {
   userSignupRequest: React.PropTypes.func.isRequired,
   addFlashMessage: React.PropTypes.func.isRequired,
-  isUserExist: React.PropTypes.func.isRequired
+  userExists: React.PropTypes.func.isRequired
 }
 
 SignupForm.contextTypes = {

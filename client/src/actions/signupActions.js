@@ -6,8 +6,8 @@ export function userSignupRequest(userData) {
   }
 }
 
-export function isUserExist(identifier) {
+export function userExists(identifier) {
   return dispatch => {
-    return axios.get(`/api/users/${identifier}`)
+    return axios.get(`/api/users/exists/${identifier}`)
   }
 }

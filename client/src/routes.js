@@ -15,7 +15,7 @@ export default (
     <IndexRoute component={Greetings}/>
     <Route path="signup" component={SignupPage}/>
     <Route path="login" component={LoginPage}/>
-    <Route path="profile" component={requireAuth(ProfilePage)}/>
     <Route path="add" component={requireAuth(StatusForm)}/>
+    <Route path="/:username" component={requireAuth(ProfilePage)}/>
   </Route>
 )

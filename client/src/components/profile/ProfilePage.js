@@ -8,17 +8,16 @@ class ProfilePage extends React.Component {
 
   constructor(props){
     super(props)
-    this.props.fetchStatuses(this.props.auth.user.username)
   }
+
   componentDidMount() {
-    this.props.fetchStatuses(this.props.auth.user.username)
+    this.props.fetchStatuses(this.props.params.username)
   }
 
   render() {
-    let username = this.props.auth.user.username
     return (
       <div>
-        <h1>Hello {username}</h1>
+        <h1>{this.props.params.username}</h1>
         <Link to="/add"><button className="btn btn-primary btn-block">Add New Status</button></Link>
         <h2 className="header">Statuses</h2>
         <StatusList statuses={this.props.statuses}/>
@@ -29,14 +28,13 @@ class ProfilePage extends React.Component {
 
 ProfilePage.propTypes = {
   statuses: React.PropTypes.array.isRequired,
-  fetchStatuses: React.PropTypes.func.isRequired
+  fetchStatuses: React.PropTypes.func.isRequired,
 }
 
 function mapStateToProps(state) {
   return {
-    statuses: state.statuses,
-    auth: state.auth
+    statuses: state.statuses
   }
 }
 
-export default connect(mapStateToProps, {fetchStatuses})(ProfilePage)
+export default connect(mapStateToProps, { fetchStatuses })(ProfilePage)

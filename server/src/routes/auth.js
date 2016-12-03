@@ -1,5 +1,5 @@
 import express from 'express'
-import User from '../models/User'
+import { User } from '../models/User'
 import bcryptjs from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import config from '../config'
@@ -14,7 +14,8 @@ router.post('/', (req, res) => {
         if (user) {
           if (bcryptjs.compareSync(password, user.password_digest)) {
             const token = jwt.sign({
-              id: user._id
+              id: user._id,
+              username: user.username
             }, config.jwtSecret)
 
             res.json({token})

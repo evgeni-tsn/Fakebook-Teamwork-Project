@@ -1,7 +1,7 @@
 import express from 'express'
 import commonValidations from '../shared/validations/signup'
 import bcrypt from 'bcryptjs'
-import User from '../models/User'
+import { User } from '../models/User'
 import isEmpty from 'lodash/isEmpty'
 
 let router = express.Router()
@@ -27,17 +27,30 @@ function validateInput(data, otherValidations) {
              })
 }
 
-router.get('/:identifier', (req, res) => {
+router.get('/exists/:identifier', (req, res) => {
   User.findOne({$or: [{username: req.params.identifier}, {email: req.params.identifier}]})
-      .select('username email')
+    .then(user => {
+      res.json({exists: user !== null})
+    })
+    .catch(err => {
+      console.log(err)
+      res.json({exists: false})
+    })
+})
+
+router.get('/:username', (req, res) => {
+  User.findOne({username: req.params.username})
       .populate({path: 'statuses',
         populate: [
-          { path: 'comments' }
+          { path: 'user', select: 'username' },
+          { path: 'comments', options: { sort: { updatedAt: 'desc' }}},
+          { path: 'likes' }
         ], options: { sort: { updatedAt: 'desc' }}})
       .then(user => {
-        user.password_digest = ''
+        if(user) user.password_digest = ''
         res.json({user})
       })
+    .catch(console.log)
 })
 
 router.post('/', (req, res) => {

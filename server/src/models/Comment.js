@@ -9,7 +9,10 @@ let commentSchema = mongoose.Schema({
 	comments: [{type: mongoose.Schema.ObjectId, ref: 'Comment'}]
 }, {
 	timestamps: true,
-	collection: 'comments'
+	collection: 'comments',
+	indexed: true
 })
 
-export default mongoose.model('Comment', commentSchema)
+let Comment = mongoose.model('Comment', commentSchema)
+
+export { Comment }
