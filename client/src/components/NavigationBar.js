@@ -2,9 +2,9 @@ import React from 'react'
 import { Link } from 'react-router'
 import { connect } from 'react-redux'
 import { logout } from '../actions/authActions'
+import SearchByUsername   from './SearchByUsername'
 
 class NavigationBar extends React.Component {
-
   logout(event) {
     event.preventDefault()
     this.props.logout()
@@ -32,8 +32,10 @@ class NavigationBar extends React.Component {
         <div className="container-fluid">
           <div className="navbar-header">
             <Link to="/" className="navbar-brand" href="#">Fakebook</Link>
+            <SearchByUsername/>
           </div>
-
+          <div>
+          </div>
           {isAuthenticated ? userLinks : guestLinks}
         </div>
       </div>
@@ -48,7 +50,7 @@ NavigationBar.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    auth: state.auth
+    auth: state.auth,
   }
 }
 

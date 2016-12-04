@@ -3,7 +3,7 @@ import mongoose from 'mongoose'
 let requiredValidationMessage = '{PATH} is required'
 
 let userSchema = mongoose.Schema({
-  username: { type: String, required: requiredValidationMessage, unique: true, indexed: true },
+  username: { type: String, required: requiredValidationMessage, unique: true },
   email: { type: String, required: requiredValidationMessage, unique: true },
   password_digest: { type: String, required: requiredValidationMessage },
   statuses: [{type: mongoose.Schema.ObjectId, ref: 'Status'}],
@@ -12,6 +12,8 @@ let userSchema = mongoose.Schema({
   timestamps: true,
   collection: 'users'
 })
+
+userSchema.index({username: 'text'})
 
 let User = mongoose.model('User', userSchema)
 

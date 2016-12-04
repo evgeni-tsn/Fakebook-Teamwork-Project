@@ -6,7 +6,6 @@ import { fetchAllStatuses } from '../actions/statusActions'
 class Greetings extends React.Component {
   constructor(props) {
     super(props)
-    this.props.fetchAllStatuses()
   }
 
   componentDidMount() {

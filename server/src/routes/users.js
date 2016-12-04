@@ -40,6 +40,22 @@ router.get('/exists/:identifier', (req, res) => {
     })
 })
 
+router.get('/search/:identifier', (req, res) => {
+  User.find({ username: { $regex: `.*${req.params.identifier}.*`}})
+    .select('username')
+    .limit(5)
+    .then(users => {
+      console.log(users)
+      if(!users) {
+        res.json({ users: [] })
+        return
+      }
+
+      res.json({users: users})
+    })
+    .catch(console.log)
+})
+
 router.get('/:username', (req, res) => {
   User.findOne({username: req.params.username})
       .populate({path: 'statuses',
