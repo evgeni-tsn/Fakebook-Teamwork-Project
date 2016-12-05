@@ -99,6 +99,20 @@ router.post('/follow/:username', authenticate, (req, res) => {
         }).catch(err => res.status(500).json({error: err}))
 })
 
+router.post('/unfollow/:username', authenticate, (req, res) => {
+  User.findOne({username: req.params.username})
+    .then(user => {
+      if(!user) {
+        res.status(404).json({ok: false})
+        return
+      }
+
+      User.findByIdAndUpdate(req.currentUser._id, {$pull: {following: user._id}}).exec()
+      User.findByIdAndUpdate(user._id, {$pull: {following: user._id}}).exec()
+      res.status(200).json({ok: true})
+    })
+})
+
 // attach upload.single('fieldname') if you want to get file from multipart form
 router.post('/', (req, res) => {
   validateInput(req.body, commonValidations).then(({errors, isValid}) => {

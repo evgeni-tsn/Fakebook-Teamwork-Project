@@ -50,3 +50,11 @@ body {
 .cursor-pointer {
     cursor: pointer;
 }
+
+.fr {
+    float: right;
+}
+
+.fl {
+    float: left;
+}

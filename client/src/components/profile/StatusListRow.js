@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { browserHistory } from 'react-router'
+import { Link } from 'react-router'
 import moment from 'moment'
 import {deleteStatus} from '../../actions/statusActions'
 import {connect} from 'react-redux'
@@ -8,7 +8,7 @@ const StatusListRow = ({status, del}) => {
   return (
     <div className="panel panel-default">
       <div className="panel-heading">
-        <a className="status-user-link" onClick={() => browserHistory.push(`/${status.user.username}`)}>Author: {status.user.username}</a>
+        <Link to={`/${status.user.username}`} className="status-user-link">Author: {status.user.username}</Link>
       </div>
       <div className="panel-heading">Last active: {moment(status.updatedAt).fromNow()}</div>
       <div className="panel-body">Content: {status.content}</div>
@@ -17,7 +17,7 @@ const StatusListRow = ({status, del}) => {
           return <li key={i}>{comment.content}</li>
         })}
       </ul>
-        <div className="panel-heading">Posted: {moment(status.createdAt).format('hh:mm:ss | DD/MM/YYYY')} <span className="cursor-pointer" onClick={() => del(status._id)}>[DELETE]</span> </div>
+        <div className="panel-heading">Posted: {moment(status.createdAt).format('hh:mm:ss | DD/MM/YYYY')}{del ? <button className="btn btn-danger btn-sm fr" onClick={() => del(status._id)}>DELETE</button> : null }</div>
     </div>
   );
 };

@@ -3,9 +3,8 @@ import StatusList from './StatusList'
 import { Link } from 'react-router'
 import { connect } from 'react-redux'
 import { fetchStatuses, deleteStatus } from '../../actions/statusActions'
-import { follow } from '../../actions/followerActions'
+import { follow, unfollow } from '../../actions/followerActions'
 class ProfilePage extends React.Component {
-
   constructor(props){
     super(props)
 
@@ -30,6 +29,15 @@ class ProfilePage extends React.Component {
   handleFollow(username) {
     follow(username)
       .then((data) => {
+        if(data.data.ok) this.context.router.push('/')
+      })
+      .catch(console.log)
+  }
+
+  handleUnfollow(username) {
+
+    unfollow(username)
+      .then(data => {
         if(data.data.ok) this.context.router.push('/')
       })
       .catch(console.log)

@@ -41,15 +41,22 @@ router.post('/like/:statusId', authenticate, (req, res) => {
         })
         .catch(err => res.status(500)).json({ok: false})
 })
+
 router.post('/delete/:statusId', authenticate, (req, res)=> {
-    console.log('req ' + req.params)
-    let statusId = req.params.statusId
-    Status.remove({_id: statusId})
-        .then(() => {
-            res.status(200).json({ok: true})
+    Status.findById({_id: req.params.statusId})
+        .then((status) => {
+            if(String(status.user) === String(req.currentUser._id)) {
+              Status.remove({_id: status._id})
+                .then(() => {
+                  res.status(200).json({ok: true})
+                })
+            } else {
+              res.status(401).json({error: 'You are not authorized'})
+            }
         })
-        .catch(err => res.status(500))
+        .catch(err => res.status(500).json({ok: false}))
 })
+
 router.post('/:statusId/:commentId', authenticate, (req, res) => {
     const {content, user, status} = {content: req.body.content, user: req.currentUser._id, status: req.params.statusId}
     let comment = {content, user, status}
