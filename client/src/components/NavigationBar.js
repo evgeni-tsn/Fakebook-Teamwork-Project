@@ -9,8 +9,13 @@ class NavigationBar extends React.Component {
   constructor (props) {
     super(props)
 
+    this.state = {
+      page: 0
+    }
+
     this.handleSearchChange = this.handleSearchChange.bind(this)
     this.handleOptionClick = this.handleOptionClick.bind(this)
+    this.handleNextPage = this.handleNextPage.bind(this)
   }
 
   logout(event) {
@@ -19,11 +24,23 @@ class NavigationBar extends React.Component {
   }
 
   handleSearchChange(e) {
-    this.props.searchByUsername(e.target.value)
+    this.state.page = 0
+    if(e.target.value.length) {
+      this.props.searchByUsername(e.target.value, this.state.page)
+    } else {
+      this.props.clearSearch()
+    }
   }
 
   handleOptionClick(e) {
+    this.refs.Search.value = ''
+    this.state.page = 0
     this.props.clearSearch()
+  }
+
+  handleNextPage(e) {
+    this.state.page += 1
+    this.props.searchByUsername(this.refs.Search.value, this.state.page)
   }
 
   render() {
@@ -48,6 +65,12 @@ class NavigationBar extends React.Component {
       return <div key={i}><Link to={`/${user.username}` } onClick={this.handleOptionClick}  key={i}>{user.username}</Link></div>
     })
 
+    const searchOptionsWrap =
+      <div>
+        <div>{searchOptions}</div>
+        <div onClick={this.handleNextPage} className="cursor-pointer">...More</div>
+      </div>
+
     return (
       <div>
         <div className="navbar navbar-default">
@@ -61,8 +84,8 @@ class NavigationBar extends React.Component {
                   type={"text"}
                   onChange={this.handleSearchChange}
                   placeholder="Search"
-                  name="typeahead"
                   className="form-control"
+                  ref="Search"
                 /> : null}
             </div>
             <div>
@@ -72,9 +95,9 @@ class NavigationBar extends React.Component {
         </div>
         { isAuthenticated && this.props.options.length > 0 ?
         <div id={"searchContainer"}>
-            <div id="infoi">
+            <div id="info">
               {this.props.options.length > 0 ?
-                 searchOptions : null}
+                 searchOptionsWrap : null}
             </div>
         </div>: null }
       </div>
@@ -87,8 +110,7 @@ NavigationBar.propTypes = {
   auth: React.PropTypes.object.isRequired,
   logout: React.PropTypes.func.isRequired,
   searchByUsername: React.PropTypes.func.isRequired,
-  handleSearchChange: React.PropTypes.func.isRequired,
-  handleOptionClick: React.PropTypes.func.isRequired,
+  clearSearch: React.PropTypes.func.isRequired,
 }
 
 NavigationBar.contextTypes = {
