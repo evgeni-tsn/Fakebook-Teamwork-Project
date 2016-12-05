@@ -3,6 +3,7 @@ import commonValidations from '../shared/validations/signup'
 import bcrypt from 'bcryptjs'
 import { User } from '../models/User'
 import isEmpty from 'lodash/isEmpty'
+import authenticate from '../middlewares/authenticate'
 
 // if you want to implement avatar uploading
 // import { upload } from '../shared/upload-config/multer-config'
@@ -73,6 +74,21 @@ router.get('/:username', (req, res) => {
         res.json({user})
       })
     .catch(console.log)
+})
+
+router.post('/befriend/:username', authenticate, (req, res) => {
+    User.findOne({$text:{$search: req.params.username} })
+        .then(user => {
+            User.findByIdAndUpdate(user._id, {$addToSet: {friends: req.currentUser._id}})
+                .then(() => {
+                    User.findByIdAndUpdate(req.currentUser._id, {$addToSet: {friends: user._id}})
+                        .then(() => {res.status(200)})
+                        .catch(() => {res.status(500)})
+                })
+                .catch(() => {res.status(500)})
+        }).catch(err => res.status(500).json({error: err}))
+
+
 })
 
 // attach upload.single('fieldname') if you want to get file from multipart form
