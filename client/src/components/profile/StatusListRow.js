@@ -1,6 +1,8 @@
 import React, { PropTypes } from 'react';
 import { browserHistory } from 'react-router'
 import moment from 'moment'
+import {deleteStatus} from '../../actions/statusActions'
+import {connect} from 'react-redux'
 
 const StatusListRow = ({status}) => {
   return (
@@ -14,7 +16,8 @@ const StatusListRow = ({status}) => {
         {status.comments.map(function(comment) {
           return <li>{comment.content}</li>
         })}
-      </ul><div className="panel-heading">Posted: {moment(status.createdAt).format('hh:mm:ss | DD/MM/YYYY')}</div>
+      </ul>
+        <div className="panel-heading">Posted: {moment(status.createdAt).format('hh:mm:ss | DD/MM/YYYY')} <span className="cursor-pointer" onClick={()=> deleteStatus(status._id)}>[DELETE]</span> </div>
     </div>
   );
 };
@@ -23,4 +26,4 @@ StatusListRow.propTypes = {
   status: PropTypes.object.isRequired
 };
 
-export default StatusListRow;
+export default connect(null,{deleteStatus})(StatusListRow);
