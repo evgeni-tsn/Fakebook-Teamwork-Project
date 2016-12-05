@@ -3,6 +3,7 @@ import StatusList from './StatusList'
 import { Link } from 'react-router'
 import { connect } from 'react-redux'
 import { fetchStatuses } from '../../actions/statusActions'
+import { addFriend } from '../../actions/friendActions'
 
 class ProfilePage extends React.Component {
 
@@ -24,6 +25,7 @@ class ProfilePage extends React.Component {
     return (
       <div>
         <h1>{this.props.params.username}</h1>
+        <button onClick={addFriend(this.props.params.username)}  className="btn btn-primary btn-block">Add to friends</button>
         <Link to="/add"><button className="btn btn-primary btn-block">Add New Status</button></Link>
         <h2 className="header">Statuses</h2>
         <StatusList statuses={this.props.statuses}/>
@@ -43,4 +45,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps, { fetchStatuses })(ProfilePage)
+export default connect(mapStateToProps, { fetchStatuses, addFriend})(ProfilePage)
