@@ -8,5 +8,5 @@ export default combineReducers({
   flashMessages,
   auth,
   statuses,
-  search
+  options: search
 })

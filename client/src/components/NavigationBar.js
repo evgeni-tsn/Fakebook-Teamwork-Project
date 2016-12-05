@@ -32,7 +32,7 @@ class NavigationBar extends React.Component {
         <div className="container-fluid">
           <div className="navbar-header">
             <Link to="/" className="navbar-brand" href="#">Fakebook</Link>
-            <SearchByUsername/>
+            <SearchByUsername options={[]}/>
           </div>
           <div>
           </div>

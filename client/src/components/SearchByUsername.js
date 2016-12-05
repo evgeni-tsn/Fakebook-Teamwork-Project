@@ -1,26 +1,26 @@
 import React from 'react'
-import { browserHistory } from 'react-router'
-import axios  from 'axios'
+import { searchByUsername } from '../actions/searchActions'
+import { connect } from 'react-redux'
+import { Link } from 'react-dom'
 
 class SearchByUsername extends React.Component {
 	constructor(props){
 		super(props)
-
-		this.searchRes = []
 		this.onChange = this.onChange.bind(this)
 	}
 
 	onChange(e) {
-		axios.get('/api/users/search/' + e.target.value)
-			.then(data => {
-				this.searchRes = data.data.users ? data.data.users : []
-				this.render()
-			})
+		this.props.searchByUsername(e.target.value)
 	}
 
 	render() {
-		console.log(this.searchRes)
+		const options =
+			this.props.options.map((user, i) =>
+			{ return <li key={i} onClick={() => this.context.router.push(`/${user.username}`)}>{user.username}</li>})
+
+		console.log('RENDER OPTIONS', options)
 		return (
+			<div>
 				<div className="form-group">
 					<input
 						type={"text"}
@@ -29,20 +29,31 @@ class SearchByUsername extends React.Component {
 						name="typeahead"
 						className="form-control"
 					/>
-					<ul>
-						{this.searchRes.map(function(user) {
-							return <li onClick={() => {browserHistory.push(`/${user.username}`)}} key={user._id}>
-									{user.username}
-							</li>
-						})}
-					</ul>
 				</div>
+
+				{this.props.options
+				&& this.props.options.length > 0
+				&& <ul>{options}</ul>}
+			</div>
+
 		)
 	}
 }
 
 SearchByUsername.PropTypes = {
 	onChange: React.PropTypes.func.isRequired,
+	options: React.PropTypes.array.isRequired
 }
 
-export default SearchByUsername
+SearchByUsername.contextTypes = {
+	router: React.PropTypes.object.isRequired
+}
+
+function mapStateToProps(state) {
+	console.log('MAPPING', state)
+	return {
+		options: state.options
+	}
+}
+
+export default connect(mapStateToProps, { searchByUsername })(SearchByUsername)
