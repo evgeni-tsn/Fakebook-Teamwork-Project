@@ -12,10 +12,10 @@ router.post('/create', authenticate, (req, res) => {
         .then(status => {
             User.findByIdAndUpdate(status.user, {$push: {statuses: status._id}})
               .then(() => {
-                res.status(201)
+                res.status(201).json({ok: true})
             })
         })
-        .catch(err => res.status(500))
+        .catch(err => res.status(500).json({ok: false}))
 })
 
 router.post('/:statusId', authenticate, (req, res) => {
@@ -26,10 +26,10 @@ router.post('/:statusId', authenticate, (req, res) => {
         .then(comment => {
             Status.findByIdAndUpdate(comment.status, {$push: {comments: comment._id}})
               .then(() => {
-                res.status(201)
+                res.status(201).json({ok: true})
               })
         })
-        .catch(err => res.status(500))
+        .catch(err => res.status(500).json({ok: false}))
 })
 
 router.post('/like/:statusId', authenticate, (req, res) => {
@@ -37,16 +37,16 @@ router.post('/like/:statusId', authenticate, (req, res) => {
 
     Status.findByIdAndUpdate(statusId, {$addToSet: {likes: user}})
         .then(() => {
-            req.status(201)
+            req.status(201).json({ok: true})
         })
-        .catch(err => res.status(500))
+        .catch(err => res.status(500)).json({ok: false})
 })
 router.post('/delete/:statusId', authenticate, (req, res)=> {
     console.log('req ' + req.params)
     let statusId = req.params.statusId
     Status.remove({_id: statusId})
         .then(() => {
-            res.status(200)
+            res.status(200).json({ok: true})
         })
         .catch(err => res.status(500))
 })
@@ -81,9 +81,9 @@ router.get('/:statusId', (req, res) => {
         .populate('user', 'username')
         .populate('comments')
         .then(status => {
-            res.status(200)
+            res.status(200).json({ok: true})
         })
-        .catch(err => res.status(500))
+        .catch(err => res.status(500).json({ok: false}))
 })
 
 export default router

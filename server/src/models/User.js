@@ -7,13 +7,12 @@ let userSchema = mongoose.Schema({
   email: { type: String, required: requiredValidationMessage, unique: true },
   password_digest: { type: String, required: requiredValidationMessage },
   statuses: [{type: mongoose.Schema.ObjectId, ref: 'Status'}],
-  friends: [{type: mongoose.Schema.ObjectId, ref: 'User'}]
+  followers: [{type: mongoose.Schema.ObjectId, ref: 'User'}],
+  following: [{type: mongoose.Schema.ObjectId, ref: 'User'}]
 }, {
   timestamps: true,
   collection: 'users'
 })
-
-userSchema.index({username: 'text'})
 
 let User = mongoose.model('User', userSchema)
 

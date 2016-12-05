@@ -76,19 +76,27 @@ router.get('/:username', (req, res) => {
     .catch(console.log)
 })
 
-router.post('/befriend/:username', authenticate, (req, res) => {
-    User.findOne({$text:{$search: req.params.username} })
+router.post('/follow/:username', authenticate, (req, res) => {
+    User.findOne({username: req.params.username})
         .then(user => {
-            User.findByIdAndUpdate(user._id, {$addToSet: {friends: req.currentUser._id}})
-                .then(() => {
-                    User.findByIdAndUpdate(req.currentUser._id, {$addToSet: {friends: user._id}})
-                        .then(() => {res.status(200)})
-                        .catch(() => {res.status(500)})
-                })
-                .catch(() => {res.status(500)})
+           if(!user){
+             res.status(404).json({ok: false})
+             return
+           }
+
+           if(user.followers.indexOf(req.currentUser._id) > -1) {
+             res.status(409).json({ok: false})
+             return
+           }
+
+           user.followers.push(req.currentUser._id)
+           user.save().then(() => {
+             User.findByIdAndUpdate(req.currentUser._id, { $addToSet: {following: user._id}})
+               .then(() => {
+                 res.status(204).json({ok: true})
+               })
+           })
         }).catch(err => res.status(500).json({error: err}))
-
-
 })
 
 // attach upload.single('fieldname') if you want to get file from multipart form
@@ -97,11 +105,10 @@ router.post('/', (req, res) => {
     if (isValid) {
       const {username, email, password} = req.body;
 
-
       const salt = bcrypt.genSaltSync(10)
       const password_digest = bcrypt.hashSync(password, salt)
 
-      let user = {
+      const user = {
         username: username,
         email: email,
         password_digest: password_digest,

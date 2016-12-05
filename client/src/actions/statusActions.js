@@ -35,7 +35,6 @@ export function fetchAllStatuses() {
 }
 
 export function deleteStatus(id) {
-    console.log('deleting ' + id)
     return axios.post('/api/statuses/delete/' + id)
         .then((data) => {
             return data.data.success
