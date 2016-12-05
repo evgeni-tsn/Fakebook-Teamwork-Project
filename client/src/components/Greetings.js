@@ -12,13 +12,16 @@ class Greetings extends React.Component {
     this.props.fetchAllStatuses()
   }
 
+  componentDidUpdate() {
+    this.props.fetchAllStatuses()
+  }
+
   render() {
     return (
       <div>
         <div className="jumbotron">
           <h1>Welcome to Fakebook</h1>
         </div>
-        <h4>Here will be listed all statuses</h4>
         <StatusList statuses={this.props.statuses}/>
       </div>
     )

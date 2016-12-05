@@ -12,6 +12,10 @@ export function searchByUsername (username) {
 	}
 }
 
+export function clearSearch() {
+	return dispatch => { dispatch(setOptions([])) }
+}
+
 export function setOptions (state = []) {
 	console.log('STATE', state)
 	return {

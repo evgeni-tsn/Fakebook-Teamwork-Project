@@ -6,7 +6,7 @@ class App extends React.Component {
   render() {
     return (
       <div className="container">
-        <NavigationBar />
+        <NavigationBar options={[]}/>
         <FlashMessagesList />
         {this.props.children}
       </div>

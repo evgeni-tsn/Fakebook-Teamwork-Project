@@ -10,6 +10,7 @@ body {
     background-color: #e4e4e4;
     /*padding-top: 70px;*/
     font-size: 1.5em !important;
+    overflow: auto;
 }
 
 .navbar-default {
@@ -20,4 +21,28 @@ body {
     cursor: pointer;
     text-decoration: none;
     font-size: 20px;
+}
+
+#searchContainer {
+    width: 31%;
+    height: auto;
+    position: relative;
+    background-color: white;
+}
+
+#infoi {
+    list-style: none;
+    width: 100%;
+    height: auto;
+    position: absolute;
+    top: -15px;
+    left: 15px;
+    background-color: white !important;
+    border-radius: 5px;
+    opacity: 0.85;
+    padding-left: 20px;
+}
+
+#search {
+    margin-top: 0.9%;
 }
