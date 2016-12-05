@@ -3,7 +3,6 @@ import { SET_STATUSES } from './types'
 
 export function createStatus(status) {
   return dispatch => {
-    console.log(status)
     return axios.post('/api/statuses', status)
       .then(console.log)
       .catch(err => console.log('error: ' + err))
@@ -21,7 +20,6 @@ export function fetchStatuses(user) {
   return dispatch => {
     return axios.get(`/api/users/${user}`)
                 .then(data => {
-                  console.log(data)
                   dispatch(setStatuses(data.data.user.statuses))
                 })
       .catch(console.log)

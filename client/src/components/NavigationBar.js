@@ -111,8 +111,6 @@ NavigationBar.propTypes = {
   logout: React.PropTypes.func.isRequired,
   searchByUsername: React.PropTypes.func.isRequired,
   clearSearch: React.PropTypes.func.isRequired,
-  handleSearchChange: React.PropTypes.func.isRequired,
-  handleOptionClick: React.PropTypes.func.isRequired,
 }
 
 NavigationBar.contextTypes = {
