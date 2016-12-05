@@ -2,13 +2,14 @@ import React from 'react'
 import StatusList from './StatusList'
 import { Link } from 'react-router'
 import { connect } from 'react-redux'
-import { fetchStatuses } from '../../actions/statusActions'
+import { fetchStatuses, deleteStatus } from '../../actions/statusActions'
 import { addFriend } from '../../actions/friendActions'
-
 class ProfilePage extends React.Component {
 
   constructor(props){
     super(props)
+
+    this.handleDeleteStatus = this.handleDeleteStatus.bind(this)
   }
 
   componentDidMount() {
@@ -21,6 +22,11 @@ class ProfilePage extends React.Component {
     }
   }
 
+  handleDeleteStatus(id) {
+    deleteStatus(id)
+    this.props.fetchStatuses(this.props.params.username)
+  }
+
   render() {
     return (
       <div>
@@ -28,7 +34,7 @@ class ProfilePage extends React.Component {
         <button onClick={addFriend(this.props.params.username)}  className="btn btn-primary btn-block">Add to friends</button>
         <Link to="/add"><button className="btn btn-primary btn-block">Add New Status</button></Link>
         <h2 className="header">Statuses</h2>
-        <StatusList statuses={this.props.statuses}/>
+        <StatusList statuses={this.props.statuses} del={this.handleDeleteStatus}/>
       </div>
     )
   }
@@ -45,4 +51,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps, { fetchStatuses, addFriend})(ProfilePage)
+export default connect(mapStateToProps, { fetchStatuses, addFriend })(ProfilePage)

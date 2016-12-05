@@ -4,7 +4,7 @@ import moment from 'moment'
 import {deleteStatus} from '../../actions/statusActions'
 import {connect} from 'react-redux'
 
-const StatusListRow = ({status}) => {
+const StatusListRow = ({status, del}) => {
   return (
     <div className="panel panel-default">
       <div className="panel-heading">
@@ -13,11 +13,11 @@ const StatusListRow = ({status}) => {
       <div className="panel-heading">Last active: {moment(status.updatedAt).fromNow()}</div>
       <div className="panel-body">Content: {status.content}</div>
       <ul>
-        {status.comments.map(function(comment) {
-          return <li>{comment.content}</li>
+        {status.comments.map(function(comment, i) {
+          return <li key={i}>{comment.content}</li>
         })}
       </ul>
-        <div className="panel-heading">Posted: {moment(status.createdAt).format('hh:mm:ss | DD/MM/YYYY')} <span className="cursor-pointer" onClick={()=> deleteStatus(status._id)}>[DELETE]</span> </div>
+        <div className="panel-heading">Posted: {moment(status.createdAt).format('hh:mm:ss | DD/MM/YYYY')} <span className="cursor-pointer" onClick={() => del(status._id)}>[DELETE]</span> </div>
     </div>
   );
 };

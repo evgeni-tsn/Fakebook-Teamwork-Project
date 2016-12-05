@@ -3,7 +3,6 @@ import {SET_STATUSES} from './types'
 
 export function createStatus(status) {
     return dispatch => {
-        console.log(status)
         return axios.post('/api/statuses/create', status)
             .then(console.log)
             .catch(err => console.log('error: ' + err))
@@ -36,9 +35,8 @@ export function fetchAllStatuses() {
 }
 
 export function deleteStatus(id) {
-
     console.log('deleting ' + id)
-    return axios.post('/api/statuses/delete/' + id, id)
+    return axios.post('/api/statuses/delete/' + id)
         .then((data) => {
             return data.data.success
         })
