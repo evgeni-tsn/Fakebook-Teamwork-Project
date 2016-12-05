@@ -30,7 +30,7 @@ body {
     background-color: white;
 }
 
-#infoi {
+#info {
     list-style: none;
     width: 100%;
     height: auto;
@@ -45,4 +45,8 @@ body {
 
 #search {
     margin-top: 0.9%;
+}
+
+.cursor-pointer {
+    cursor: pointer;
 }

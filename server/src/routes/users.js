@@ -7,6 +7,8 @@ import isEmpty from 'lodash/isEmpty'
 // if you want to implement avatar uploading
 // import { upload } from '../shared/upload-config/multer-config'
 
+const perPage = 5
+
 let router = express.Router()
 
 function validateInput(data, otherValidations) {
@@ -40,10 +42,12 @@ router.get('/exists/:identifier', (req, res) => {
     })
 })
 
-router.get('/search/:identifier', (req, res) => {
-  User.find({ username: { $regex: `.*${req.params.identifier}.*`}})
+router.get('/search/:username/page/:page', (req, res) => {
+  console.log(req.params)
+  User.find({ username: { $regex: new RegExp(`.*${req.params.username}.*`, 'i')}})
     .select('username')
-    .limit(5)
+    .skip(Number(req.params.page) * perPage)
+    .limit(perPage)
     .then(users => {
       console.log(users)
       if(!users) {
