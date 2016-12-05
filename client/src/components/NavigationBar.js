@@ -45,7 +45,7 @@ class NavigationBar extends React.Component {
     )
 
     const searchOptions = this.props.options.map((user, i) => {
-      return <div><Link to={`/${user.username}` } onClick={this.handleOptionClick}  key={i}>{user.username}</Link></div>
+      return <div key={i}><Link to={`/${user.username}` } onClick={this.handleOptionClick}  key={i}>{user.username}</Link></div>
     })
 
     return (

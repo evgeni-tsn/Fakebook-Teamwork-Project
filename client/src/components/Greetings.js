@@ -12,8 +12,10 @@ class Greetings extends React.Component {
     this.props.fetchAllStatuses()
   }
 
-  componentDidUpdate() {
-    this.props.fetchAllStatuses()
+  componentWillReceiveProps(nextProps) {
+    if(this.props.params.username !== nextProps.params.username) {
+      this.props.fetchAllStatuses()
+    }
   }
 
   render() {

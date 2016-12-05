@@ -14,8 +14,10 @@ class ProfilePage extends React.Component {
     this.props.fetchStatuses(this.props.params.username)
   }
 
-  componentDidUpdate(){
-    this.props.fetchStatuses(this.props.params.username)
+  componentWillReceiveProps(nextProps) {
+    if(this.props.params.username !== nextProps.params.username) {
+      this.props.fetchStatuses(nextProps.params.username)
+    }
   }
 
   render() {
