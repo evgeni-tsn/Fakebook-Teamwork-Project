@@ -25,7 +25,11 @@ class NavigationBar extends React.Component {
 
   handleSearchChange(e) {
     this.state.page = 0
-    this.props.searchByUsername(e.target.value, this.state.page)
+    if(e.target.value.length) {
+      this.props.searchByUsername(e.target.value, this.state.page)
+    } else {
+      this.props.clearSearch()
+    }
   }
 
   handleOptionClick(e) {
@@ -106,6 +110,7 @@ NavigationBar.propTypes = {
   auth: React.PropTypes.object.isRequired,
   logout: React.PropTypes.func.isRequired,
   searchByUsername: React.PropTypes.func.isRequired,
+  clearSearch: React.PropTypes.func.isRequired,
   handleSearchChange: React.PropTypes.func.isRequired,
   handleOptionClick: React.PropTypes.func.isRequired,
 }
