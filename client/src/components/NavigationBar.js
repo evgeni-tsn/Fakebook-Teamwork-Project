@@ -49,9 +49,10 @@ class NavigationBar extends React.Component {
     const userLinks = (
       <ul className="nav navbar-nav navbar-right">
         <li><Link to="/add">Add New Status</Link></li>
-        <li><Link to={`/${this.props.auth.user.username}`}>{this.props.auth.user.username}</Link></li>
-        <li><a href="#" onClick={this.logout.bind(this)}>Logout</a></li>
+        <li><Link to={`/${this.props.auth.user.username}`}><span className="glyphicon glyphicon-user"></span> {this.props.auth.user.username}</Link></li>
+        <li><a href="#" onClick={this.logout.bind(this)}><span className="glyphicon glyphicon-log-out"></span> Logout</a></li>
       </ul>
+
     )
 
     const guestLinks = (
