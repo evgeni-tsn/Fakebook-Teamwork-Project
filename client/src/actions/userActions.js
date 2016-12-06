@@ -1,20 +1,6 @@
 import axios from 'axios'
-import {SET_STATUSES, SET_USER_DATA} from './types'
-
-export function createStatus(status) {
-    return dispatch => {
-        return axios.post('/api/statuses/create', status)
-            .then(console.log)
-            .catch(err => console.log('error: ' + err))
-    }
-}
-
-export function setStatuses(statuses = []) {
-    return {
-        type: SET_STATUSES,
-        statuses: statuses
-    }
-}
+import { SET_USER_DATA} from './types'
+import { setStatuses } from './statusActions'
 
 export function setUserData (userData = {}) {
     return {
@@ -38,19 +24,4 @@ export function fetchUser(user) {
             })
             .catch(console.log)
     }
-}
-
-export function fetchAllStatuses() {
-    return dispatch => {
-        return axios.get(`/api/statuses/`)
-            .then(data => dispatch(setStatuses(data.data)))
-    }
-}
-
-export function deleteStatus(id) {
-    return axios.post('/api/statuses/delete/' + id)
-        .then((data) => {
-            return data.data.success
-        })
-        .catch(err => console.log('error: ' + err))
 }

@@ -1,9 +1,9 @@
 import React from 'react'
 import StatusListRow from './StatusListRow'
 
-export default function StatusList({statuses, del}) {
+export default function StatusList({statuses, comment, del}) {
 
-  const emptyMsg = (<p>You did not have any status.</p>)
+  const emptyMsg = (<p>There are no statuses</p>)
 
   return (
     <div>
@@ -11,7 +11,7 @@ export default function StatusList({statuses, del}) {
 
       <div className="panel-group">
         {statuses.map(status =>
-          <StatusListRow key={status._id} status={status} del={del}/>
+          <StatusListRow key={status._id} status={status} comment={comment} del={del}/>
         )}
       </div>
     </div>

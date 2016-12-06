@@ -21,7 +21,6 @@ router.post('/create', authenticate, (req, res) => {
 router.post('/:statusId', authenticate, (req, res) => {
     const {content, user, status} = {content: req.body.content, user: req.currentUser._id, status: req.params.statusId}
     let comment = {content, user, status}
-
     Comment.create(comment)
         .then(comment => {
             Status.findByIdAndUpdate(comment.status, {$push: {comments: comment._id}})
@@ -39,7 +38,7 @@ router.post('/like/:statusId', authenticate, (req, res) => {
         .then(() => {
             req.status(201).json({ok: true})
         })
-        .catch(err => res.status(500)).json({ok: false})
+        .catch(err => res.status(500).json({ok: false}))
 })
 
 router.post('/delete/:statusId', authenticate, (req, res)=> {
@@ -77,7 +76,7 @@ router.post('/:statusId/:commentId', authenticate, (req, res) => {
 router.get('/', (req, res) => {
     Status.find()
         .populate('user', 'username')
-        .populate('comments')
+        .populate({ path: 'comments', populate: [{ path: 'user', select: 'username'}], options: { sort: { updatedAt: 'desc' }}})
         .sort({updatedAt: 'desc'})
         .then(s => res.status(200).json(s))
         .catch(err => res.status(500).json({error: err}))

@@ -152,7 +152,7 @@ router.post('/', (req, res) => {
       }
 
       User.create(user)
-          .then(user => res.json({success: true}))
+          .then(user => {res.json({success: true})})
           .catch(err => res.status(500).json({error: err}))
     } else {
       res.status(400).json(errors)

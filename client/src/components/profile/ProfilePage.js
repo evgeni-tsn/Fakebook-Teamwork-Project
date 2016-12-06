@@ -1,8 +1,8 @@
 import React from 'react'
 import StatusList from './StatusList'
-import { Link } from 'react-router'
 import { connect } from 'react-redux'
-import { fetchUser, deleteStatus } from '../../actions/userActions'
+import { fetchUser } from '../../actions/userActions'
+import { deleteStatus, comment } from '../../actions/statusActions'
 import { follow, unfollow } from '../../actions/followerActions'
 import {modal} from 'react-redux-modal'
 import LinkListModal from '../modals/LinkListModal'
@@ -12,6 +12,7 @@ class ProfilePage extends React.Component {
     super(props)
 
     this.handleDeleteStatus = this.handleDeleteStatus.bind(this)
+    this.handleComment = this.handleComment.bind(this)
   }
 
   componentDidMount() {
@@ -41,6 +42,14 @@ class ProfilePage extends React.Component {
     unfollow(username)
       .then(data => {
         if(data.data.ok) this.props.fetchUser(this.props.params.username)
+      })
+      .catch(console.log)
+  }
+
+  handleComment(statusId, content) {
+    comment(statusId, content)
+      .then((res) => {
+        if(res.data.ok) this.props.fetchUser(this.props.params.username)
       })
       .catch(console.log)
   }
@@ -81,15 +90,17 @@ class ProfilePage extends React.Component {
                   <span className="foll-data"
                         onClick={this.openFollowingModal.bind(this)}>Following: {this.props.userData.followingCount}</span>
                 </div>
+                {this.props.auth.user.username !== this.props.userData.username ? <div>
                 <button onClick={() => {this.handleFollow(this.props.userData.username)}} className="btn btn-primary mgr20">
                   Follow
                 </button>
                 <button onClick={() => {this.handleUnfollow(this.props.userData.username)}} className="btn btn-primary mgr20">
                   Unfollow
                 </button>
+                </div>: null }
               </div>
               <h2 className="header">Statuses</h2>
-              <StatusList statuses={this.props.statuses} del={this.handleDeleteStatus}/>
+              <StatusList statuses={this.props.statuses} comment={this.handleComment} del={this.handleDeleteStatus}/>
             </div>
             : <div className="fs28">{'No such user'}</div>}
       </div>
@@ -110,7 +121,8 @@ ProfilePage.contextTypes = {
 function mapStateToProps(state) {
   return {
     statuses: state.users.statuses,
-    userData: state.users.userData
+    userData: state.users.userData,
+    auth: state.auth
   }
 }
 

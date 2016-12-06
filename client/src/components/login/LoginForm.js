@@ -54,8 +54,10 @@ class LoginForm extends React.Component {
       this.setState({errors: {}, isLoading: true})
       this.props.login(this.state).then(
         (res) => {
+          console.log(res)
           toastr.success('Logged in successfully')
-          this.context.router.push('/profile')},
+          this.context.router.push(`/`)},
+
         (err) => {
           toastr.error('Something went wrong with login.')
           this.setState({errors: err.response.data, isLoading: false})}

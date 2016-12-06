@@ -8,10 +8,13 @@
 }
 
 body {
+    position: relative;
     background-color: #e4e4e4;
     font-size: 1.5em !important;
     overflow-y: auto;
     overflow-x: hidden;
+    min-width:350px;
+    width: auto !important;
 }
 
 .navbar-collapse.collapse {
@@ -49,11 +52,25 @@ body {
     font-size: 20px;
 }
 
+.comment-user-link {
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.comment-content {
+    font-size: 14px;
+}
+
 #searchContainer {
     width: 31%;
     height: auto;
     position: relative;
     background-color: white;
+}
+
+.ul-no-bullets {
+    list-style: none;
 }
 
 #info {
@@ -69,9 +86,6 @@ body {
     padding-left: 20px;
 }
 
-.navbar-fixed-top .active a {
-    background: blue;
-}
 .text-wrap {
     white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
     white-space: -pre-wrap;      /* Opera 4-6 */
@@ -84,7 +98,8 @@ body {
 }
 
 #search {
-    margin-top: 0.9%;
+    margin-top: 8px;
+    margin-left: 0.5%;
 }
 
 .cursor-pointer {
@@ -123,5 +138,11 @@ body {
 }
 
 .mgr20 {
+    margin-right: 20px;
+}
+
+.comment-button {
+    float: right;
+    margin-top: 0.5%;
     margin-right: 20px;
 }
