@@ -121,3 +121,7 @@ body {
 .blue:hover {
     color: cyan;
 }
+
+.mgr20 {
+    margin-right: 20px;
+}

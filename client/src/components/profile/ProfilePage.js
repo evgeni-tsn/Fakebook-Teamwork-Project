@@ -19,7 +19,7 @@ class ProfilePage extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if(this.props.params.username !== nextProps.params.username) {
+    if (this.props.params.username !== nextProps.params.username) {
       this.props.fetchUser(nextProps.params.username)
     }
   }
@@ -32,7 +32,7 @@ class ProfilePage extends React.Component {
   handleFollow(username) {
     follow(username)
       .then((data) => {
-        if(data.data.ok) this.context.router.push(`/`)
+        if(data.data.ok)  this.props.fetchUser(this.props.params.username)
       })
       .catch(console.log)
   }
@@ -40,7 +40,7 @@ class ProfilePage extends React.Component {
   handleUnfollow(username) {
     unfollow(username)
       .then(data => {
-        if(data.data.ok) this.context.router.push('/')
+        if(data.data.ok) this.props.fetchUser(this.props.params.username)
       })
       .catch(console.log)
   }
@@ -70,17 +70,28 @@ class ProfilePage extends React.Component {
   render() {
     return (
       <div>
-        <div className="jumbotron">
-          <span className="fs28">{this.props.params.username}</span>
-          <br/>
-          <div>
-            <span className="foll-data" onClick={this.openFollowersModal.bind(this)}>Followers: {this.props.userData.followersCount}</span>
-            <span className="foll-data" onClick={this.openFollowingModal.bind(this)}>Following: {this.props.userData.followingCount}</span>
-          </div>
-          <button onClick={() => {this.handleFollow(this.props.params.username)}}  className="btn btn-primary">Follow</button>
-        </div>
-          <h2 className="header">Statuses</h2>
-          <StatusList statuses={this.props.statuses} del={this.handleDeleteStatus}/>
+          { this.props.userData.username ?
+            <div>
+              <div className="jumbotron">
+                <span className="fs28">{this.props.userData.username}</span>
+                <br/>
+                <div>
+                  <span className="foll-data"
+                        onClick={this.openFollowersModal.bind(this)}>Followers: {this.props.userData.followersCount}</span>
+                  <span className="foll-data"
+                        onClick={this.openFollowingModal.bind(this)}>Following: {this.props.userData.followingCount}</span>
+                </div>
+                <button onClick={() => {this.handleFollow(this.props.userData.username)}} className="btn btn-primary mgr20">
+                  Follow
+                </button>
+                <button onClick={() => {this.handleUnfollow(this.props.userData.username)}} className="btn btn-primary mgr20">
+                  Unfollow
+                </button>
+              </div>
+              <h2 className="header">Statuses</h2>
+              <StatusList statuses={this.props.statuses} del={this.handleDeleteStatus}/>
+            </div>
+            : <div className="fs28">{'No such user'}</div>}
       </div>
     )
   }

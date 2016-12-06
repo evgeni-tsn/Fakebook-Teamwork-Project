@@ -24,7 +24,10 @@ export function initializeDB() {
       User.create({
         username: 'admin',
         email: 'admin@abv.bg',
-        password_digest: bcrypt.hashSync('admin', 10)
+        password_digest: bcrypt.hashSync('admin', 10),
+        followers: [],
+        following: [],
+        statuses: []
       })
     }
   })

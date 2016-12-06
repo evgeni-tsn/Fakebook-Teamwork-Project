@@ -86,6 +86,11 @@ router.post('/follow/:username', authenticate, (req, res) => {
              return
            }
 
+           if(String(user._id) === String(req.currentUser._id)) {
+             res.status(400).json({ok: false})
+             return
+           }
+
            if(user.followers.indexOf(req.currentUser._id) > -1) {
              res.status(409).json({ok: false})
              return
@@ -95,7 +100,7 @@ router.post('/follow/:username', authenticate, (req, res) => {
            user.save().then(() => {
              User.findByIdAndUpdate(req.currentUser._id, { $addToSet: {following: user._id}})
                .then(() => {
-                 res.status(204).json({ok: true})
+                 res.status(200).json({ok: true})
                })
            })
         }).catch(err => res.status(500).json({error: err}))
@@ -109,10 +114,24 @@ router.post('/unfollow/:username', authenticate, (req, res) => {
         return
       }
 
-      User.findByIdAndUpdate(req.currentUser._id, {$pull: {following: user._id}}).exec()
-      User.findByIdAndUpdate(user._id, {$pull: {following: user._id}}).exec()
-      res.status(200).json({ok: true})
-    })
+      if(String(user._id) === String(req.currentUser._id)) {
+        res.status(400).json({ok: false})
+        return
+      }
+
+      if(user.followers.indexOf(req.currentUser._id) === -1) {
+        res.status(409).json({ok: false})
+        return
+      }
+
+      user.followers.remove(req.currentUser._id)
+      user.save().then(() => {
+        User.findByIdAndUpdate(req.currentUser._id, { $pull: {following: user._id}})
+          .then(() => {
+            res.status(200).json({ok: true})
+          })
+      })
+    }).catch(err => res.status(500).json({error: err}))
 })
 
 // attach upload.single('fieldname') if you want to get file from multipart form
