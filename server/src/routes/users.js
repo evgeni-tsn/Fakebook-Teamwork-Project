@@ -67,8 +67,10 @@ router.get('/:username', (req, res) => {
         populate: [
           { path: 'user', select: 'username' },
           { path: 'comments', options: { sort: { updatedAt: 'desc' }}},
-          { path: 'likes' }
+          { path: 'likes' },
         ], options: { sort: { updatedAt: 'desc' }}})
+        .populate('followers', 'username')
+        .populate('following', 'username')
       .then(user => {
         if(user) user.password_digest = ''
         res.json({user})

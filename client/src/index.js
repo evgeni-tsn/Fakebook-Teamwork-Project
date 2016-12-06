@@ -9,6 +9,7 @@ import rootReducer from './rootReducer'
 import setAuthToken from './utilities/setAuthToken'
 import jwtDecode from 'jwt-decode'
 import { setCurrentUser } from './actions/authActions'
+import ReduxModal from 'react-redux-modal'
 
 const rootElement = document.getElementById('app')
 const store = createStore(
@@ -26,6 +27,9 @@ if (localStorage.jwtToken) {
 
 ReactDOM.render(
   <Provider store={store}>
-    <Router history={browserHistory} routes={routes}/>
+    <div>
+      <Router history={browserHistory} routes={routes}/>
+      <ReduxModal/>
+    </div>
   </Provider>, rootElement)
 

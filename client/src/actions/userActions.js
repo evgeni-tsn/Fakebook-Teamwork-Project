@@ -21,8 +21,8 @@ export function setUserData (userData = {}) {
         type: SET_USER_DATA,
         userData: {
             username: userData.username,
-            followers: userData.followers.map((user) => {return user.username}),
-            following: userData.following.map((user) => {return user.username}),
+            followers: userData.followers.map(user => user.username),
+            following: userData.following.map(user => user.username),
             followersCount: userData.followers.length || 0,
             followingCount: userData.following.length || 0
         }

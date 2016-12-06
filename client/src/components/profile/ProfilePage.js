@@ -4,6 +4,8 @@ import { Link } from 'react-router'
 import { connect } from 'react-redux'
 import { fetchStatuses, deleteStatus } from '../../actions/userActions'
 import { follow, unfollow } from '../../actions/followerActions'
+import {modal} from 'react-redux-modal'
+import LinkListModal from '../modals/LinkListModal'
 
 class ProfilePage extends React.Component {
   constructor(props){
@@ -43,6 +45,28 @@ class ProfilePage extends React.Component {
       .catch(console.log)
   }
 
+  openFollowersModal() {
+    modal.add(LinkListModal, {
+      title: 'Followers',
+      size: 'medium',
+      closeOnOutsideClick: true,
+      hideTitleBar: false,
+      hideCloseButton: false,
+      list: this.props.userData.followers
+    })
+  }
+
+  openFollowingModal() {
+    modal.add(LinkListModal, {
+      title: 'Following',
+      size: 'medium',
+      closeOnOutsideClick: true,
+      hideTitleBar: false,
+      hideCloseButton: false,
+      list: this.props.userData.following
+    })
+  }
+
   render() {
     return (
       <div>
@@ -50,8 +74,8 @@ class ProfilePage extends React.Component {
           <span className="fs28">{this.props.params.username}</span>
           <br/>
           <div>
-            <span className="foll-data">Followers: {this.props.userData.followersCount}</span>
-            <span className="foll-data">Following: {this.props.userData.followingCount}</span>
+            <span className="foll-data" onClick={this.openFollowersModal.bind(this)}>Followers: {this.props.userData.followersCount}</span>
+            <span className="foll-data" onClick={this.openFollowingModal.bind(this)}>Following: {this.props.userData.followingCount}</span>
           </div>
           <Link to="/add"><button className="btn btn-primary">Add New Status</button></Link>
           <button onClick={() => {this.handleFollow(this.props.params.username)}}  className="btn btn-primary">Follow</button>
@@ -65,6 +89,7 @@ class ProfilePage extends React.Component {
 
 ProfilePage.propTypes = {
   statuses: React.PropTypes.array.isRequired,
+  userData: React.PropTypes.object.isRequired,
   fetchStatuses: React.PropTypes.func.isRequired,
 }
 

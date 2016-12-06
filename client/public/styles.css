@@ -67,5 +67,18 @@ body {
 .foll-data {
     font-size: 24px;
     color: gray;
+    cursor: pointer;
     padding-right: 5%;
+}
+
+.foll-data:hover {
+    color: darkgray;
+}
+
+.blue {
+    color: #1397ff;
+}
+
+.blue:hover {
+    color: cyan;
 }
