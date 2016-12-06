@@ -92,7 +92,7 @@ class LoginForm extends React.Component {
         />
 
         <div className="form-group">
-          <button className="btn btn-primary btn-lg" disabled={isLoading}>Login</button>
+          <button id="loginButton" className="btn btn-primary btn-lg" disabled={isLoading}>Login</button>
         </div>
       </form>
     )
