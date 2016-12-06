@@ -66,7 +66,7 @@ router.get('/:username', (req, res) => {
       .populate({path: 'statuses',
         populate: [
           { path: 'user', select: 'username' },
-          { path: 'comments', options: { sort: { updatedAt: 'desc' }}},
+          { path: 'comments', populate: [{ path: 'user', select: 'username'}], options: { sort: { updatedAt: 'desc' }}},
           { path: 'likes' },
         ], options: { sort: { updatedAt: 'desc' }}})
         .populate('followers', 'username')

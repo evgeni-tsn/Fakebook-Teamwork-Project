@@ -2,7 +2,7 @@ import React from 'react'
 import StatusList from './StatusList'
 import { Link } from 'react-router'
 import { connect } from 'react-redux'
-import { fetchStatuses, deleteStatus } from '../../actions/userActions'
+import { fetchUser, deleteStatus } from '../../actions/userActions'
 import { follow, unfollow } from '../../actions/followerActions'
 import {modal} from 'react-redux-modal'
 import LinkListModal from '../modals/LinkListModal'
@@ -15,24 +15,24 @@ class ProfilePage extends React.Component {
   }
 
   componentDidMount() {
-    this.props.fetchStatuses(this.props.params.username)
+    this.props.fetchUser(this.props.params.username)
   }
 
   componentWillReceiveProps(nextProps) {
     if(this.props.params.username !== nextProps.params.username) {
-      this.props.fetchStatuses(nextProps.params.username)
+      this.props.fetchUser(nextProps.params.username)
     }
   }
 
   handleDeleteStatus(id) {
     deleteStatus(id)
-    this.props.fetchStatuses(this.props.params.username)
+    this.props.fetchUser(this.props.params.username)
   }
 
   handleFollow(username) {
     follow(username)
       .then((data) => {
-        if(data.data.ok) this.context.router.push('/')
+        if(data.data.ok) this.context.router.push(`/`)
       })
       .catch(console.log)
   }
@@ -70,7 +70,6 @@ class ProfilePage extends React.Component {
   render() {
     return (
       <div>
-        <Link to="/add"><button className="btn btn-primary btn-block">Add New Status</button></Link>
         <div className="jumbotron">
           <span className="fs28">{this.props.params.username}</span>
           <br/>
@@ -90,7 +89,7 @@ class ProfilePage extends React.Component {
 ProfilePage.propTypes = {
   statuses: React.PropTypes.array.isRequired,
   userData: React.PropTypes.object.isRequired,
-  fetchStatuses: React.PropTypes.func.isRequired,
+  fetchUser: React.PropTypes.func.isRequired,
 }
 
 ProfilePage.contextTypes = {
@@ -104,4 +103,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps, { fetchStatuses })(ProfilePage)
+export default connect(mapStateToProps, { fetchUser })(ProfilePage)

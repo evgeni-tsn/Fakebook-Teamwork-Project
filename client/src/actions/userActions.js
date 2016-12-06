@@ -29,7 +29,7 @@ export function setUserData (userData = {}) {
     }
 }
 
-export function fetchStatuses(user) {
+export function fetchUser(user) {
     return dispatch => {
         return axios.get(`/api/users/${user}`)
             .then(data => {

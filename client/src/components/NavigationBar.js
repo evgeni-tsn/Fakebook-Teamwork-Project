@@ -1,9 +1,10 @@
+// only using jquery to assign initial padding top to search results based on window scroll offset
+import $ from 'jquery'
 import React from 'react'
 import { Link } from 'react-router'
 import { connect } from 'react-redux'
 import { logout } from '../actions/authActions'
 import { searchByUsername, clearSearch } from '../actions/searchActions'
-
 
 class NavigationBar extends React.Component {
   constructor (props) {
@@ -98,7 +99,7 @@ class NavigationBar extends React.Component {
         </div>
         { isAuthenticated && this.props.options.length > 0 ?
           <div id={"searchContainer"}>
-            <div id="info">
+            <div id="info" style={{paddingTop: $(window).scrollTop()}}>
               {this.props.options.length > 0 ?
                 searchOptionsWrap : null}
             </div>
