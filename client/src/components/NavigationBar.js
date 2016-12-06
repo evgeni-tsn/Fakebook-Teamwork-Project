@@ -120,7 +120,7 @@ NavigationBar.contextTypes = {
 function mapStateToProps(state) {
   return {
     auth: state.auth,
-    options: state.options
+    options: state.search
   }
 }
 

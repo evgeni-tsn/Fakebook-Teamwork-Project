@@ -2,8 +2,9 @@ import React from 'react'
 import StatusList from './StatusList'
 import { Link } from 'react-router'
 import { connect } from 'react-redux'
-import { fetchStatuses, deleteStatus } from '../../actions/statusActions'
+import { fetchStatuses, deleteStatus } from '../../actions/userActions'
 import { follow, unfollow } from '../../actions/followerActions'
+
 class ProfilePage extends React.Component {
   constructor(props){
     super(props)
@@ -35,7 +36,6 @@ class ProfilePage extends React.Component {
   }
 
   handleUnfollow(username) {
-
     unfollow(username)
       .then(data => {
         if(data.data.ok) this.context.router.push('/')
@@ -46,11 +46,18 @@ class ProfilePage extends React.Component {
   render() {
     return (
       <div>
-        <h1>{this.props.params.username}</h1>
-        <button onClick={() => {this.handleFollow(this.props.params.username)}}  className="btn btn-primary btn-block">Follow</button>
-        <Link to="/add"><button className="btn btn-primary btn-block">Add New Status</button></Link>
-        <h2 className="header">Statuses</h2>
-        <StatusList statuses={this.props.statuses} del={this.handleDeleteStatus}/>
+        <div className="jumbotron">
+          <span className="fs28">{this.props.params.username}</span>
+          <br/>
+          <div>
+            <span className="foll-data">Followers: {this.props.userData.followersCount}</span>
+            <span className="foll-data">Following: {this.props.userData.followingCount}</span>
+          </div>
+          <Link to="/add"><button className="btn btn-primary">Add New Status</button></Link>
+          <button onClick={() => {this.handleFollow(this.props.params.username)}}  className="btn btn-primary">Follow</button>
+        </div>
+          <h2 className="header">Statuses</h2>
+          <StatusList statuses={this.props.statuses} del={this.handleDeleteStatus}/>
       </div>
     )
   }
@@ -67,7 +74,8 @@ ProfilePage.contextTypes = {
 
 function mapStateToProps(state) {
   return {
-    statuses: state.statuses
+    statuses: state.users.statuses,
+    userData: state.users.userData
   }
 }
 

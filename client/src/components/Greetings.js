@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import StatusList from '../components/profile/StatusList'
-import { fetchAllStatuses } from '../actions/statusActions'
+import { fetchAllStatuses } from '../actions/userActions'
 
 class Greetings extends React.Component {
   constructor(props) {
@@ -32,7 +32,7 @@ class Greetings extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    statuses: state.statuses,
+    statuses: state.users.statuses,
     auth: state.auth
   }
 }

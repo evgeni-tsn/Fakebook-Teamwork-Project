@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router'
 import moment from 'moment'
-import {deleteStatus} from '../../actions/statusActions'
+import {deleteStatus} from '../../actions/userActions'
 import {connect} from 'react-redux'
 
 const StatusListRow = ({status, del}) => {

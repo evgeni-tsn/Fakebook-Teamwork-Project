@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {SET_STATUSES} from './types'
+import {SET_STATUSES, SET_USER_DATA} from './types'
 
 export function createStatus(status) {
     return dispatch => {
@@ -16,12 +16,25 @@ export function setStatuses(statuses = []) {
     }
 }
 
+export function setUserData (userData = {}) {
+    return {
+        type: SET_USER_DATA,
+        userData: {
+            username: userData.username,
+            followers: userData.followers.map((user) => {return user.username}),
+            following: userData.following.map((user) => {return user.username}),
+            followersCount: userData.followers.length || 0,
+            followingCount: userData.following.length || 0
+        }
+    }
+}
+
 export function fetchStatuses(user) {
     return dispatch => {
         return axios.get(`/api/users/${user}`)
             .then(data => {
-                console.log(data)
                 dispatch(setStatuses(data.data.user.statuses))
+                dispatch(setUserData(data.data.user))
             })
             .catch(console.log)
     }
