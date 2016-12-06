@@ -76,7 +76,7 @@ router.post('/:statusId/:commentId', authenticate, (req, res) => {
 router.get('/', (req, res) => {
     Status.find()
         .populate('user', 'username')
-        .populate({ path: 'comments', populate: [{ path: 'user', select: 'username'}], options: { sort: { updatedAt: 'desc' }}})
+        .populate({ path: 'comments', populate: [{ path: 'user', select: 'username'}], options: { sort: { updatedAt: 'asc' }}})
         .sort({updatedAt: 'desc'})
         .then(s => res.status(200).json(s))
         .catch(err => res.status(500).json({error: err}))

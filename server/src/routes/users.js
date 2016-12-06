@@ -50,7 +50,6 @@ router.get('/search/:username/page/:page', (req, res) => {
     .skip(Number(req.params.page) * perPage)
     .limit(perPage)
     .then(users => {
-      console.log(users)
       if(!users) {
         res.json({ users: [] })
         return

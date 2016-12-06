@@ -43,10 +43,10 @@ class StatusListRow extends React.Component {
         <ul className="ul-no-bullets">
           {this.props.status.comments.map(function (comment, i) {
             return <li key={i} className="text-wrap">
-              <Link to={`/${comment.user.username}`} className="comment-user-link">
+              <Link to={`/${comment.user.username}`} className="comment-user-link text-wrap">
                 {comment.user.username}:
               </Link>
-              <span className="comment-content"> {comment.content}</span>
+                <span className="comment-content text-wrap"> {comment.content} <span className="text-wrap comment-content fr mgr20">{moment(comment.createdAt).fromNow()}</span></span>
               </li>
           })}
         </ul>
@@ -63,7 +63,7 @@ class StatusListRow extends React.Component {
           {this.props.del ? <button className="btn btn-danger btn-sm fr" onClick={this.handleDelete}>DELETE</button> : null }
         </div>
       </div>
-    );
+    )
   }
 }
 

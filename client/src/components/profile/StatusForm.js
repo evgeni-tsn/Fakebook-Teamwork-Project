@@ -1,7 +1,7 @@
 import React from 'react'
 import toastr from 'toastr'
 import { connect } from 'react-redux'
-import { createStatus } from '../../actions/userActions'
+import { createStatus } from '../../actions/statusActions'
 
 class StatusForm extends React.Component {
   constructor(props) {
