@@ -5,6 +5,11 @@ import {deleteStatus} from '../../actions/statusActions'
 import {connect} from 'react-redux'
 
 const StatusListRow = ({status, del}) => {
+  function click() {
+    if (confirm("Are you sure you want to delete this post?") === true) {
+      del(status._id)
+    }
+  }
   return (
     <div className="panel panel-default">
       <div className="panel-heading">
@@ -17,7 +22,7 @@ const StatusListRow = ({status, del}) => {
           return <li key={i}>{comment.content}</li>
         })}
       </ul>
-        <div className="panel-heading">Posted: {moment(status.createdAt).format('hh:mm:ss | DD/MM/YYYY')}{del ? <button className="btn btn-danger btn-sm fr" onClick={() => del(status._id)}>DELETE</button> : null }</div>
+        <div className="panel-heading">Posted: {moment(status.createdAt).format('hh:mm:ss | DD/MM/YYYY')}{del ? <button className="btn btn-danger btn-sm fr" onClick={click}>DELETE</button> : null }</div>
     </div>
   );
 };
