@@ -50,7 +50,6 @@ router.get('/search/:username/page/:page', (req, res) => {
     .skip(Number(req.params.page) * perPage)
     .limit(perPage)
     .then(users => {
-      console.log(users)
       if(!users) {
         res.json({ users: [] })
         return
@@ -66,9 +65,11 @@ router.get('/:username', (req, res) => {
       .populate({path: 'statuses',
         populate: [
           { path: 'user', select: 'username' },
-          { path: 'comments', options: { sort: { updatedAt: 'desc' }}},
-          { path: 'likes' }
+          { path: 'comments', populate: [{ path: 'user', select: 'username'}], options: { sort: { updatedAt: 'desc' }}},
+          { path: 'likes' },
         ], options: { sort: { updatedAt: 'desc' }}})
+        .populate('followers', 'username')
+        .populate('following', 'username')
       .then(user => {
         if(user) user.password_digest = ''
         res.json({user})
@@ -84,6 +85,11 @@ router.post('/follow/:username', authenticate, (req, res) => {
              return
            }
 
+           if(String(user._id) === String(req.currentUser._id)) {
+             res.status(400).json({ok: false})
+             return
+           }
+
            if(user.followers.indexOf(req.currentUser._id) > -1) {
              res.status(409).json({ok: false})
              return
@@ -93,7 +99,7 @@ router.post('/follow/:username', authenticate, (req, res) => {
            user.save().then(() => {
              User.findByIdAndUpdate(req.currentUser._id, { $addToSet: {following: user._id}})
                .then(() => {
-                 res.status(204).json({ok: true})
+                 res.status(200).json({ok: true})
                })
            })
         }).catch(err => res.status(500).json({error: err}))
@@ -107,10 +113,24 @@ router.post('/unfollow/:username', authenticate, (req, res) => {
         return
       }
 
-      User.findByIdAndUpdate(req.currentUser._id, {$pull: {following: user._id}}).exec()
-      User.findByIdAndUpdate(user._id, {$pull: {following: user._id}}).exec()
-      res.status(200).json({ok: true})
-    })
+      if(String(user._id) === String(req.currentUser._id)) {
+        res.status(400).json({ok: false})
+        return
+      }
+
+      if(user.followers.indexOf(req.currentUser._id) === -1) {
+        res.status(409).json({ok: false})
+        return
+      }
+
+      user.followers.remove(req.currentUser._id)
+      user.save().then(() => {
+        User.findByIdAndUpdate(req.currentUser._id, { $pull: {following: user._id}})
+          .then(() => {
+            res.status(200).json({ok: true})
+          })
+      })
+    }).catch(err => res.status(500).json({error: err}))
 })
 
 // attach upload.single('fieldname') if you want to get file from multipart form
@@ -131,7 +151,7 @@ router.post('/', (req, res) => {
       }
 
       User.create(user)
-          .then(user => res.json({success: true}))
+          .then(user => {res.json({success: true})})
           .catch(err => res.status(500).json({error: err}))
     } else {
       res.status(400).json(errors)

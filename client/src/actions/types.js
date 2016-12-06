@@ -3,4 +3,5 @@ export const DELETE_FLASH_MESSAGE = 'DELETE_FLASH_MESSAGE'
 export const SET_CURRENT_USER = 'SET_CURRENT_USER'
 export const SET_STATUSES = 'SET_STATUSES'
 export const SET_OPTIONS = 'SET_OPTIONS'
-
+export const SET_USER_DATA = 'SET_USER_DATA'
+export const COMMENT = 'COMMENT'

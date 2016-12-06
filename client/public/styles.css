@@ -8,13 +8,41 @@
 }
 
 body {
+    position: relative;
     background-color: #e4e4e4;
-    /*padding-top: 70px;*/
     font-size: 1.5em !important;
-    overflow: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
+    min-width:350px;
+    width: auto !important;
 }
 
-.navbar-default {
+.navbar-collapse.collapse {
+    display: inline!important;
+}
+
+.navbar-nav>li, .navbar-nav {
+    float: left !important;
+}
+
+.nav>li>a:focus,
+.nav>li>a:hover {
+    color: dodgerblue;
+    background-color: dodgerblue;
+    border-radius: 10px;
+}
+
+.navbar-nav.navbar-right:last-child {
+    margin-right: -15px !important;
+}
+
+.navbar-right {
+    float: right!important;
+    padding-right: 50px;
+}
+
+
+.navbar-fixed-top {
     border-color: #e4e4e4;
 }
 
@@ -24,11 +52,25 @@ body {
     font-size: 20px;
 }
 
+.comment-user-link {
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.comment-content {
+    font-size: 14px;
+}
+
 #searchContainer {
     width: 31%;
     height: auto;
     position: relative;
     background-color: white;
+}
+
+.ul-no-bullets {
+    list-style: none;
 }
 
 #info {
@@ -44,8 +86,20 @@ body {
     padding-left: 20px;
 }
 
+.text-wrap {
+    white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
+    white-space: -pre-wrap;      /* Opera 4-6 */
+    white-space: -o-pre-wrap;    /* Opera 7 */
+    white-space: pre-wrap;       /* css-3 */
+    word-wrap: break-word;       /* Internet Explorer 5.5+ */
+    white-space: -webkit-pre-wrap; /* Newer versions of Chrome/Safari*/
+    word-break: break-all;
+    white-space: normal;
+}
+
 #search {
-    margin-top: 0.9%;
+    margin-top: 8px;
+    margin-left: 0.5%;
 }
 
 .cursor-pointer {
@@ -58,4 +112,37 @@ body {
 
 .fl {
     float: left;
+}
+
+.fs28 {
+    font-size: 50px;
+}
+
+.foll-data {
+    font-size: 24px;
+    color: gray;
+    cursor: pointer;
+    padding-right: 5%;
+}
+
+.foll-data:hover {
+    color: darkgray;
+}
+
+.blue {
+    color: #1397ff;
+}
+
+.blue:hover {
+    color: cyan;
+}
+
+.mgr20 {
+    margin-right: 20px;
+}
+
+.comment-button {
+    float: right;
+    margin-top: 0.5%;
+    margin-right: 20px;
 }

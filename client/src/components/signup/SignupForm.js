@@ -87,22 +87,18 @@ class SignupForm extends React.Component {
   }
 
   onSubmit(event) {
+    event.preventDefault()
     toastr.options = {
       "closeButton": "true",
       "positionClass": "toast-top-right"
     }
-    event.preventDefault()
     if (this.isValid()) {
       this.setState({errors: {}, isLoading: true})
 
       this.props.userSignupRequest(this.state).then(
         () => {
-          this.props.addFlashMessage({
-            type: 'success',
-            text: 'Sign up was successful!'
-          })
           toastr.success("Sign up was successful!")
-          this.context.router.push('/')
+          this.context.router.push('/login')
         },
         (err) => {
           this.setState({errors: err.response.data, isLoading: false})

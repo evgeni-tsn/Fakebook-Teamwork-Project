@@ -1,11 +1,12 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import StatusList from '../components/profile/StatusList'
-import { fetchAllStatuses } from '../actions/statusActions'
+import { fetchAllStatuses, comment } from '../actions/statusActions'
 
 class Greetings extends React.Component {
   constructor(props) {
     super(props)
+    this.handleComment = this.handleComment.bind(this)
   }
 
   componentDidMount() {
@@ -18,13 +19,21 @@ class Greetings extends React.Component {
     }
   }
 
+  handleComment(statusId, content) {
+    comment(statusId, content)
+      .then((res) => {
+        if(res.data.ok) this.props.fetchAllStatuses()
+      })
+      .catch(console.log)
+  }
+
   render() {
     return (
       <div>
         <div className="jumbotron">
           <h1>Welcome to Fakebook</h1>
         </div>
-        <StatusList statuses={this.props.statuses}/>
+        <StatusList statuses={this.props.statuses} comment={this.handleComment}/>
       </div>
     )
   }
@@ -32,8 +41,7 @@ class Greetings extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    statuses: state.statuses,
-    auth: state.auth
+    statuses: state.users.statuses,
   }
 }
 

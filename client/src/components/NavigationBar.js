@@ -1,9 +1,10 @@
+// only using jquery to assign initial padding top to search results based on window scroll offset
+import $ from 'jquery'
 import React from 'react'
 import { Link } from 'react-router'
 import { connect } from 'react-redux'
 import { logout } from '../actions/authActions'
 import { searchByUsername, clearSearch } from '../actions/searchActions'
-
 
 class NavigationBar extends React.Component {
   constructor (props) {
@@ -56,10 +57,10 @@ class NavigationBar extends React.Component {
     )
 
     const guestLinks = (
-      <ul className="nav navbar-nav navbar-right">
-        <li><Link to="/login"><span className="glyphicon glyphicon-log-in"> Login</span></Link></li>
-        <li><Link to="/signup"><span className="glyphicon glyphicon-user"> Signup</span></Link></li>
-      </ul>
+        <ul className="nav navbar-nav navbar-right">
+          <li><Link to="/login"><span className="glyphicon glyphicon-log-in"> Login</span></Link></li>
+          <li><Link to="/signup"><span className="glyphicon glyphicon-user"> Signup</span></Link></li>
+        </ul>
     )
 
     const searchOptions = this.props.options.map((user, i) => {
@@ -74,33 +75,35 @@ class NavigationBar extends React.Component {
 
     return (
       <div>
-        <div className="navbar navbar-default">
-          <div className="container-fluid">
-            <div className="navbar-header">
-              <Link to="/" className="navbar-brand" href="#">Fakebook</Link>
-            </div>
-            <div className="nav navbar-nav navbar-left" id={"search"}>
-              {isAuthenticated ?
-                <input
-                  type={"text"}
-                  onChange={this.handleSearchChange}
-                  placeholder="Search"
-                  className="form-control"
-                  ref="Search"
-                /> : null}
-            </div>
-            <div>
-            </div>
-            {isAuthenticated ? userLinks : guestLinks}
-          </div>
+        <div className="navbar-container">
+          <nav className="navbar navbar-fixed-top">
+              <div className="navbar-header pull-left">
+                <Link to="/" className="navbar-brand" href="#">Fakebook</Link>
+              </div>
+              <div className="nav navbar-nav navbar-left" id={"search"}>
+                {isAuthenticated ?
+                  <input
+                    type={"text"}
+                    onChange={this.handleSearchChange}
+                    placeholder="Search"
+                    className="form-control"
+                    ref="Search"
+                  /> : null}
+              </div>
+              <div>
+              </div>
+              <div className="navbar-header pull-right">
+              {isAuthenticated ? userLinks : guestLinks}
+              </div>
+          </nav>
         </div>
         { isAuthenticated && this.props.options.length > 0 ?
-        <div id={"searchContainer"}>
-            <div id="info">
+          <div id={"searchContainer"}>
+            <div id="info" style={{paddingTop: $(window).scrollTop()}}>
               {this.props.options.length > 0 ?
-                 searchOptionsWrap : null}
+                searchOptionsWrap : null}
             </div>
-        </div>: null }
+          </div>: null }
       </div>
     )
   }
@@ -121,7 +124,7 @@ NavigationBar.contextTypes = {
 function mapStateToProps(state) {
   return {
     auth: state.auth,
-    options: state.options
+    options: state.search
   }
 }
 
