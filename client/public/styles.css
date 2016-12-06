@@ -9,12 +9,37 @@
 
 body {
     background-color: #e4e4e4;
-    /*padding-top: 70px;*/
     font-size: 1.5em !important;
-    overflow: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
-.navbar-default {
+.navbar-collapse.collapse {
+    display: inline!important;
+}
+
+.navbar-nav>li, .navbar-nav {
+    float: left !important;
+}
+
+.nav>li>a:focus,
+.nav>li>a:hover {
+    color: dodgerblue;
+    background-color: dodgerblue;
+    border-radius: 10px;
+}
+
+.navbar-nav.navbar-right:last-child {
+    margin-right: -15px !important;
+}
+
+.navbar-right {
+    float: right!important;
+    padding-right: 50px;
+}
+
+
+.navbar-fixed-top {
     border-color: #e4e4e4;
 }
 
@@ -42,6 +67,20 @@ body {
     border-radius: 5px;
     opacity: 0.85;
     padding-left: 20px;
+}
+
+.navbar-fixed-top .active a {
+    background: blue;
+}
+.text-wrap {
+    white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
+    white-space: -pre-wrap;      /* Opera 4-6 */
+    white-space: -o-pre-wrap;    /* Opera 7 */
+    white-space: pre-wrap;       /* css-3 */
+    word-wrap: break-word;       /* Internet Explorer 5.5+ */
+    white-space: -webkit-pre-wrap; /* Newer versions of Chrome/Safari*/
+    word-break: break-all;
+    white-space: normal;
 }
 
 #search {

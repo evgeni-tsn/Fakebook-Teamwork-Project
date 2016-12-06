@@ -70,6 +70,7 @@ class ProfilePage extends React.Component {
   render() {
     return (
       <div>
+        <Link to="/add"><button className="btn btn-primary btn-block">Add New Status</button></Link>
         <div className="jumbotron">
           <span className="fs28">{this.props.params.username}</span>
           <br/>
@@ -77,7 +78,6 @@ class ProfilePage extends React.Component {
             <span className="foll-data" onClick={this.openFollowersModal.bind(this)}>Followers: {this.props.userData.followersCount}</span>
             <span className="foll-data" onClick={this.openFollowingModal.bind(this)}>Following: {this.props.userData.followingCount}</span>
           </div>
-          <Link to="/add"><button className="btn btn-primary">Add New Status</button></Link>
           <button onClick={() => {this.handleFollow(this.props.params.username)}}  className="btn btn-primary">Follow</button>
         </div>
           <h2 className="header">Statuses</h2>

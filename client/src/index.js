@@ -10,6 +10,7 @@ import setAuthToken from './utilities/setAuthToken'
 import jwtDecode from 'jwt-decode'
 import { setCurrentUser } from './actions/authActions'
 import ReduxModal from 'react-redux-modal'
+import $ from 'jquery'
 
 const rootElement = document.getElementById('app')
 const store = createStore(
@@ -32,4 +33,15 @@ ReactDOM.render(
       <ReduxModal/>
     </div>
   </Provider>, rootElement)
+
+// hack for bootstrap fixed navbar overlapping content
+(function subscribeToResize() {
+  $(window).resize(adjust_body_offset)
+  $(document).ready(adjust_body_offset)
+
+  function adjust_body_offset() {
+    $('body').css('padding-top', $('.navbar-fixed-top').outerHeight(true) + 'px' );
+  }
+}())
+
 
