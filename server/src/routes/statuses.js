@@ -46,9 +46,12 @@ router.post('/delete/:statusId', authenticate, (req, res)=> {
     Status.findById({_id: req.params.statusId})
         .then((status) => {
             if(String(status.user) === String(req.currentUser._id)) {
-              Status.remove({_id: status._id})
+              Comment.remove({_id: { $in: status.comments }})
                 .then(() => {
-                  res.status(200).json({ok: true})
+                  Status.remove({_id: status._id})
+                    .then(() => {
+                      res.status(200).json({ok: true})
+                    })
                 })
             } else {
               res.status(401).json({error: 'You are not authorized'})
