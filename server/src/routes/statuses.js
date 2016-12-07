@@ -3,6 +3,7 @@ import authenticate from '../middlewares/authenticate'
 import {User, Status, Comment} from '../models/Models'
 
 let router = express.Router()
+const perPage = 5
 
 router.post('/create', authenticate, (req, res) => {
     const {content, user} = {content: req.body.content, user: req.currentUser._id}
@@ -73,23 +74,38 @@ router.post('/:statusId/:commentId', authenticate, (req, res) => {
         .catch(err => res.status(500).json({error: err}))
 })
 
-router.get('/', (req, res) => {
+router.get('/:page', (req, res) => {
     Status.find()
-        .populate('user', 'username')
-        .populate({ path: 'comments', populate: [{ path: 'user', select: 'username'}], options: { sort: { updatedAt: 'asc' }}})
-        .sort({updatedAt: 'desc'})
-        .then(s => res.status(200).json(s))
+      .sort({updatedAt: 'desc'})
+      .skip(Number(req.params.page) * perPage)
+      .limit(perPage)
+      .populate('user', 'username')
+      .populate({ path: 'comments', populate: [{ path: 'user', select: 'username'}], options: { sort: { updatedAt: 'asc' }}})
+        .then(s => {
+          if(s && s.length > 0){
+            res.json({statuses: s, finished: false})
+          } else {
+            res.json({finished: true})
+          }
+        })
         .catch(err => res.status(500).json({error: err}))
 })
 
-router.get('/:statusId', (req, res) => {
-    Status.findById(req.params.statusId)
-        .populate('user', 'username')
-        .populate('comments')
-        .then(status => {
-            res.status(200).json({ok: true})
-        })
-        .catch(err => res.status(500).json({ok: false}))
+router.get('/till/:page', (req, res) => {
+  Status.find()
+    .sort({updatedAt: 'desc'})
+    .skip(0)
+    .limit(Number(req.params.page) * perPage)
+    .populate('user', 'username')
+    .populate({ path: 'comments', populate: [{ path: 'user', select: 'username'}], options: { sort: { updatedAt: 'asc' }}})
+    .then(s => {
+      if(s && s.length > 0){
+        res.json({statuses: s, finished: false})
+      } else {
+        res.json({finished: true})
+      }
+    })
+    .catch(err => res.status(500).json({error: err}))
 })
 
 export default router

@@ -24,6 +24,8 @@ class StatusListRow extends React.Component {
 
   handleComment () {
     if(this.state.input) {
+      this.refs.CommentInput.value = ''
+      this.setState({input: ''})
       this.props.comment(this.props.status._id, this.state.input)
     }
   }
@@ -50,9 +52,9 @@ class StatusListRow extends React.Component {
               </li>
           })}
         </ul>
-        {this.props.comment && this.props.auth ? <div className="row">
+        {this.props.comment && this.props.auth && this.props.auth.isAuthenticated ? <div className="row">
         <span className="col-lg-10 col-md-10 col-sm-8 col-xs-8">
-          <input type="text" className="form-control" placeholder="What do you think?" onChange={this.onInput}/>
+          <input ref="CommentInput" type="text" className="form-control" placeholder="What do you think?" onChange={this.onInput}/>
         </span>
           <span className="col-lg-2 col-md-2 col-sm-4 col-xs-4">
           <button className="btn btn-primary btn-sm comment-button" onClick={this.handleComment}>Comment</button>
