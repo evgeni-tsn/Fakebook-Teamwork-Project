@@ -1,4 +1,4 @@
-import { SET_STATUSES, COMMENT, CLEAN_STATUSES, SET_FINISHED, SET_FETCHING } from './types'
+import { SET_STATUSES, CLEAN_STATUSES, SET_FINISHED, SET_FETCHING } from './types'
 import axios from 'axios'
 
 export function createStatus(status) {

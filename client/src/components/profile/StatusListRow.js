@@ -69,7 +69,11 @@ class StatusListRow extends React.Component {
         </div> : null}
         <div className="panel-heading">
           Posted: {moment(this.props.status.createdAt).format('hh:mm:ss | DD/MM/YYYY')}
-          {this.props.del ? <button className="btn btn-danger btn-sm fr" onClick={this.handleDelete}>DELETE</button> : null }
+          {this.props.del
+          && this.props.auth
+          && this.props.auth.user.username === this.props.status.user.username
+          ? <button className="btn btn-danger btn-sm fr" onClick={this.handleDelete}>DELETE</button>
+          : null }
         </div>
       </div>
     )

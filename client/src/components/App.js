@@ -33,8 +33,4 @@ class App extends React.Component {
   }
 }
 
-App.PropTypes = {
-  currentUser: React.PropTypes.object.isRequired,
-}
-
 export default App

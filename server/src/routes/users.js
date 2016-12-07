@@ -44,7 +44,6 @@ router.get('/exists/:identifier', (req, res) => {
 })
 
 router.get('/search/:username/page/:page', (req, res) => {
-  console.log(req.params)
   User.find({ username: { $regex: new RegExp(`.*${req.params.username}.*`, 'i')}})
     .select('username')
     .skip(Number(req.params.page) * perPage)
@@ -65,7 +64,7 @@ router.get('/:username', (req, res) => {
       .populate({path: 'statuses',
         populate: [
           { path: 'user', select: 'username' },
-          { path: 'comments', populate: [{ path: 'user', select: 'username'}], options: { sort: { updatedAt: 'desc' }}},
+          { path: 'comments', populate: [{ path: 'user', select: 'username'}], options: { sort: { updatedAt: 'asc' }}},
           { path: 'likes' },
         ], options: { sort: { updatedAt: 'desc' }}})
         .populate('followers', 'username')

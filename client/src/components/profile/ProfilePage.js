@@ -120,7 +120,7 @@ ProfilePage.contextTypes = {
 
 function mapStateToProps(state) {
   return {
-    statuses: state.users.statuses,
+    statuses: state.statuses.statuses,
     userData: state.users.userData,
     auth: state.auth
   }

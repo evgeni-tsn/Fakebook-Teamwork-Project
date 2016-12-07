@@ -25,7 +25,7 @@ class NavigationBar extends React.Component {
   }
 
   handleSearchChange(e) {
-    this.state.page = 0
+    this.setState({page: 0})
     if(e.target.value.length) {
       this.props.searchByUsername(e.target.value, this.state.page)
     } else {
@@ -35,12 +35,12 @@ class NavigationBar extends React.Component {
 
   handleOptionClick(e) {
     this.refs.Search.value = ''
-    this.state.page = 0
+    this.setState({page: 0})
     this.props.clearSearch()
   }
 
   handleNextPage(e) {
-    this.state.page += 1
+    this.setState({page: this.state.page + 1})
     this.props.searchByUsername(this.refs.Search.value, this.state.page)
   }
 

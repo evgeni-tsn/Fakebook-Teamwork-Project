@@ -73,9 +73,9 @@ class Greetings extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    statuses: state.users.statuses,
-    finished: state.users.finished,
-    fetching: state.users.fetching,
+    statuses: state.statuses.statuses,
+    finished: state.statuses.finished,
+    fetching: state.statuses.fetching,
   }
 }
 

@@ -8,7 +8,6 @@ class StatusForm extends React.Component {
     super(props)
     this.state = {
       content: '',
-      errors: {},
       isLoading: false,
       auth: {}
     }
@@ -30,7 +29,7 @@ class StatusForm extends React.Component {
   }
 
   render() {
-    const {content, errors, isLoading} = this.state
+    const {content, isLoading} = this.state
     return (
       <form onSubmit={this.onSubmit}>
         <h3>Create new Status</h3>
